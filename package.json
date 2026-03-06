@@ -6,13 +6,14 @@
   "scripts": {
     "dev": "remotion studio src/index.ts",
     "render": "remotion render src/index.ts",
-    "render:all": "remotion render src/index.ts ProductLaunch out/product-launch.mp4 && remotion render src/index.ts FeatureShowcase out/feature-showcase.mp4 && remotion render src/index.ts SocialProof out/social-proof.mp4 && remotion render src/index.ts AppDemo out/app-demo.mp4",
+    "render:all": "npm run render:lacy",
+    "render:lacy": "remotion render src/index.ts LacyShell-Launch out/lacy-launch.mp4 && remotion render src/index.ts LacyShell-Features out/lacy-features.mp4 && remotion render src/index.ts LacyShell-Social out/lacy-social.mp4 && remotion render src/index.ts LacyShell-Demo out/lacy-demo.mp4",
+    "render:lacy:square": "remotion render src/index.ts LacyShell-Launch-Square out/lacy-launch-square.mp4",
+    "render:lacy:vertical": "remotion render src/index.ts LacyShell-Launch-Vertical out/lacy-launch-vertical.mp4",
     "render:launch": "remotion render src/index.ts ProductLaunch out/product-launch.mp4",
     "render:features": "remotion render src/index.ts FeatureShowcase out/feature-showcase.mp4",
     "render:social": "remotion render src/index.ts SocialProof out/social-proof.mp4",
-    "render:demo": "remotion render src/index.ts AppDemo out/app-demo.mp4",
-    "render:square": "remotion render src/index.ts ProductLaunch-Square out/product-launch-square.mp4",
-    "render:vertical": "remotion render src/index.ts ProductLaunch-Vertical out/product-launch-vertical.mp4"
+    "render:demo": "remotion render src/index.ts AppDemo out/app-demo.mp4"
   },
   "keywords": [],
   "author": "",

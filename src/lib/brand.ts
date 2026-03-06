@@ -127,6 +127,14 @@ export const spacing = {
  * Add new projects here as needed.
  */
 export const brands = {
+  /** Lacy Shell - AI terminal upgrade */
+  lacy: {
+    palette: palettes.devtools,
+    productName: "Lacy Shell",
+    tagline: "Your terminal, upgraded",
+    websiteUrl: "lacy.sh",
+  },
+
   /** Build And Serve - web/digital agency */
   buildandserve: {
     palette: palettes.electric,

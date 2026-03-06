@@ -3,79 +3,148 @@ import { ProductLaunch } from "./templates/ProductLaunch";
 import { FeatureShowcase } from "./templates/FeatureShowcase";
 import { SocialProof } from "./templates/SocialProof";
 import { AppDemo } from "./templates/AppDemo";
-import { palettes, typography } from "./lib/brand";
+import { palettes, brands, typography } from "./lib/brand";
 
-// Use the devtools palette as default (swap to any palette from brand.ts)
-const palette = palettes.devtools;
+// ─── Lacy Shell ──────────────────────────────────────────────────
+const lacy = brands.lacy;
 
-const productLaunchDefaults = {
-  productName: "Your Product",
-  tagline: "The future of productivity",
-  features: ["Lightning fast", "AI-powered", "Beautiful UI"],
-  ctaText: "Try it free →",
-  brandColor: palette.primary,
-  accentColor: palette.accent,
+const lacyLaunchDefaults = {
+  productName: "Lacy Shell",
+  tagline: "Talk to your terminal with AI",
+  features: ["Auto-detect routing", "Smart reroute", "Zero config"],
+  ctaText: "curl -fsSL lacy.sh/install | bash",
+  brandColor: lacy.palette.primary,
+  accentColor: lacy.palette.accent,
   logoUrl: "",
-  websiteUrl: "yourproduct.com",
+  websiteUrl: "lacy.sh",
   fontFamily: typography.heading.family,
   bodyFontFamily: typography.body.family,
 };
 
-const featureShowcaseDefaults = {
-  productName: "Your Product",
+const lacyFeaturesDefaults = {
+  productName: "Lacy Shell",
   features: [
     {
-      title: "Smart Dashboard",
-      description: "Real-time analytics at your fingertips",
-      icon: "📊",
+      title: "Auto-Detect",
+      description: "Commands run in your shell. Questions go to AI. No prefixes needed.",
+      icon: "⚡",
     },
     {
-      title: "AI Assistant",
-      description: "Get intelligent suggestions automatically",
-      icon: "🤖",
+      title: "Smart Reroute",
+      description: "Ambiguous input? Tries the shell first. If it fails, reroutes to AI automatically.",
+      icon: "🔀",
     },
     {
-      title: "Team Collaboration",
-      description: "Work together seamlessly in real-time",
-      icon: "👥",
+      title: "Live Indicator",
+      description: "Green means shell. Magenta means AI. You always know what will happen.",
+      icon: "🟢",
+    },
+    {
+      title: "Preheated",
+      description: "Background servers eliminate cold-start. Your AI is ready before you finish typing.",
+      icon: "🔥",
     },
   ],
-  brandColor: palette.primary,
-  accentColor: palette.accent,
+  brandColor: lacy.palette.primary,
+  accentColor: lacy.palette.accent,
 };
 
-const socialProofDefaults = {
-  productName: "Your Product",
+const lacySocialDefaults = {
+  productName: "Lacy Shell",
   stats: [
-    { value: "10,000+", label: "Active Users" },
-    { value: "99.9%", label: "Uptime" },
-    { value: "4.9★", label: "Rating" },
+    { value: "0ms", label: "Config Required" },
+    { value: "6+", label: "AI Tools Supported" },
+    { value: "1 line", label: "Install" },
   ],
   testimonial: {
-    quote: "This completely transformed how our team works.",
-    author: "Jane Smith",
-    role: "CTO at TechCorp",
+    quote: "Type commands or natural language. It figures it out.",
+    author: "lacy.sh",
+    role: "Your terminal, upgraded",
   },
-  brandColor: palette.accent,
+  brandColor: lacy.palette.accent,
 };
 
-const appDemoDefaults = {
-  productName: "Your Product",
-  tagline: "See it in action",
+const lacyDemoDefaults = {
+  productName: "Lacy Shell",
+  tagline: "Commands run. Questions route.",
   screenshotUrl: "",
   steps: [
-    { label: "Sign up in seconds", icon: "✨" },
-    { label: "Connect your tools", icon: "🔗" },
-    { label: "Watch the magic happen", icon: "🚀" },
+    { label: "Install in one command", icon: "📦" },
+    { label: "Pick your AI tool", icon: "🤖" },
+    { label: "Just start typing", icon: "⌨️" },
   ],
-  brandColor: palette.primary,
-  accentColor: palette.accent,
+  brandColor: lacy.palette.primary,
+  accentColor: lacy.palette.accent,
 };
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
-      {/* Product Launch - Hero/announcement style */}
+      {/* ─── Lacy Shell Videos ──────────────────────────────── */}
+
+      <Composition
+        id="LacyShell-Launch"
+        component={ProductLaunch}
+        durationInFrames={300}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={lacyLaunchDefaults}
+      />
+
+      <Composition
+        id="LacyShell-Features"
+        component={FeatureShowcase}
+        durationInFrames={420}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={lacyFeaturesDefaults}
+      />
+
+      <Composition
+        id="LacyShell-Social"
+        component={SocialProof}
+        durationInFrames={270}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={lacySocialDefaults}
+      />
+
+      <Composition
+        id="LacyShell-Demo"
+        component={AppDemo}
+        durationInFrames={300}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={lacyDemoDefaults}
+      />
+
+      {/* Social formats */}
+      <Composition
+        id="LacyShell-Launch-Square"
+        component={ProductLaunch}
+        durationInFrames={300}
+        fps={30}
+        width={1080}
+        height={1080}
+        defaultProps={lacyLaunchDefaults}
+      />
+
+      <Composition
+        id="LacyShell-Launch-Vertical"
+        component={ProductLaunch}
+        durationInFrames={300}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={lacyLaunchDefaults}
+      />
+
+      {/* ─── Generic Templates (for other projects) ─────────── */}
+
       <Composition
         id="ProductLaunch"
         component={ProductLaunch}
@@ -83,10 +152,20 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1920}
         height={1080}
-        defaultProps={productLaunchDefaults}
+        defaultProps={{
+          productName: "Your Product",
+          tagline: "The future of productivity",
+          features: ["Lightning fast", "AI-powered", "Beautiful UI"],
+          ctaText: "Try it free →",
+          brandColor: palettes.devtools.primary,
+          accentColor: palettes.devtools.accent,
+          logoUrl: "",
+          websiteUrl: "yourproduct.com",
+          fontFamily: typography.heading.family,
+          bodyFontFamily: typography.body.family,
+        }}
       />
 
-      {/* Feature Showcase - Cycle through features */}
       <Composition
         id="FeatureShowcase"
         component={FeatureShowcase}
@@ -94,10 +173,18 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1920}
         height={1080}
-        defaultProps={featureShowcaseDefaults}
+        defaultProps={{
+          productName: "Your Product",
+          features: [
+            { title: "Smart Dashboard", description: "Real-time analytics at your fingertips", icon: "📊" },
+            { title: "AI Assistant", description: "Get intelligent suggestions automatically", icon: "🤖" },
+            { title: "Team Collaboration", description: "Work together seamlessly in real-time", icon: "👥" },
+          ],
+          brandColor: palettes.devtools.primary,
+          accentColor: palettes.devtools.accent,
+        }}
       />
 
-      {/* Social Proof - Stats and testimonials */}
       <Composition
         id="SocialProof"
         component={SocialProof}
@@ -105,10 +192,22 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1920}
         height={1080}
-        defaultProps={socialProofDefaults}
+        defaultProps={{
+          productName: "Your Product",
+          stats: [
+            { value: "10,000+", label: "Active Users" },
+            { value: "99.9%", label: "Uptime" },
+            { value: "4.9★", label: "Rating" },
+          ],
+          testimonial: {
+            quote: "This completely transformed how our team works.",
+            author: "Jane Smith",
+            role: "CTO at TechCorp",
+          },
+          brandColor: palettes.devtools.accent,
+        }}
       />
 
-      {/* App Demo - Show the product */}
       <Composition
         id="AppDemo"
         component={AppDemo}
@@ -116,28 +215,18 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1920}
         height={1080}
-        defaultProps={appDemoDefaults}
-      />
-
-      {/* Social media variants */}
-      <Composition
-        id="ProductLaunch-Square"
-        component={ProductLaunch}
-        durationInFrames={300}
-        fps={30}
-        width={1080}
-        height={1080}
-        defaultProps={productLaunchDefaults}
-      />
-
-      <Composition
-        id="ProductLaunch-Vertical"
-        component={ProductLaunch}
-        durationInFrames={300}
-        fps={30}
-        width={1080}
-        height={1920}
-        defaultProps={productLaunchDefaults}
+        defaultProps={{
+          productName: "Your Product",
+          tagline: "See it in action",
+          screenshotUrl: "",
+          steps: [
+            { label: "Sign up in seconds", icon: "✨" },
+            { label: "Connect your tools", icon: "🔗" },
+            { label: "Watch the magic happen", icon: "🚀" },
+          ],
+          brandColor: palettes.devtools.primary,
+          accentColor: palettes.devtools.accent,
+        }}
       />
     </>
   );
