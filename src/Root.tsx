@@ -4,6 +4,9 @@ import { FeatureShowcase } from "./templates/FeatureShowcase";
 import { SocialProof } from "./templates/SocialProof";
 import { AppDemo } from "./templates/AppDemo";
 import { LacyHero } from "./templates/LacyHero";
+import { LacyThreeD } from "./templates/LacyThreeD";
+import { LacyFlowField } from "./templates/LacyFlowField";
+import { LacySvgMorph } from "./templates/LacySvgMorph";
 import { palettes, brands, typography } from "./lib/brand";
 
 // ─── Lacy Shell ──────────────────────────────────────────────────
@@ -87,6 +90,70 @@ export const RemotionRoot: React.FC = () => {
         id="LacyShell-Hero"
         component={LacyHero}
         durationInFrames={480}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{
+          accentColor: "#c084fc",
+          accentColor2: "#22c55e",
+          backgroundColor: "#09090b",
+        }}
+      />
+
+      {/* ─── Three.js 3D Cube Grid ─────────────────────────── */}
+
+      <Composition
+        id="LacyShell-3D-Cubes"
+        component={LacyThreeD}
+        durationInFrames={360}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{
+          accentColor: "#c084fc",
+          accentColor2: "#22c55e",
+          backgroundColor: "#09090b",
+          scene: "cubes" as const,
+        }}
+      />
+
+      <Composition
+        id="LacyShell-3D-Sphere"
+        component={LacyThreeD}
+        durationInFrames={360}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{
+          accentColor: "#c084fc",
+          accentColor2: "#22c55e",
+          backgroundColor: "#09090b",
+          scene: "sphere" as const,
+        }}
+      />
+
+      {/* ─── Canvas 2D Flow Field (generative art) ─────────── */}
+
+      <Composition
+        id="LacyShell-FlowField"
+        component={LacyFlowField}
+        durationInFrames={480}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{
+          accentColor: "#c084fc",
+          accentColor2: "#22c55e",
+          backgroundColor: "#09090b",
+        }}
+      />
+
+      {/* ─── SVG Morph (blobs + circuit nodes) ─────────────── */}
+
+      <Composition
+        id="LacyShell-SvgMorph"
+        component={LacySvgMorph}
+        durationInFrames={420}
         fps={30}
         width={1920}
         height={1080}
