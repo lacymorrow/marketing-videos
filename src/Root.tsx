@@ -3,17 +3,22 @@ import { ProductLaunch } from "./templates/ProductLaunch";
 import { FeatureShowcase } from "./templates/FeatureShowcase";
 import { SocialProof } from "./templates/SocialProof";
 import { AppDemo } from "./templates/AppDemo";
+import { palettes, typography } from "./lib/brand";
 
-// Default props for each template
+// Use the devtools palette as default (swap to any palette from brand.ts)
+const palette = palettes.devtools;
+
 const productLaunchDefaults = {
   productName: "Your Product",
   tagline: "The future of productivity",
   features: ["Lightning fast", "AI-powered", "Beautiful UI"],
   ctaText: "Try it free →",
-  brandColor: "#6366f1",
-  accentColor: "#ec4899",
+  brandColor: palette.primary,
+  accentColor: palette.accent,
   logoUrl: "",
   websiteUrl: "yourproduct.com",
+  fontFamily: typography.heading.family,
+  bodyFontFamily: typography.body.family,
 };
 
 const featureShowcaseDefaults = {
@@ -35,8 +40,8 @@ const featureShowcaseDefaults = {
       icon: "👥",
     },
   ],
-  brandColor: "#6366f1",
-  accentColor: "#ec4899",
+  brandColor: palette.primary,
+  accentColor: palette.accent,
 };
 
 const socialProofDefaults = {
@@ -51,7 +56,7 @@ const socialProofDefaults = {
     author: "Jane Smith",
     role: "CTO at TechCorp",
   },
-  brandColor: "#6366f1",
+  brandColor: palette.accent,
 };
 
 const appDemoDefaults = {
@@ -63,8 +68,8 @@ const appDemoDefaults = {
     { label: "Connect your tools", icon: "🔗" },
     { label: "Watch the magic happen", icon: "🚀" },
   ],
-  brandColor: "#6366f1",
-  accentColor: "#ec4899",
+  brandColor: palette.primary,
+  accentColor: palette.accent,
 };
 
 export const RemotionRoot: React.FC = () => {
