@@ -1,3 +1,35 @@
+# Remotion Layout Rules
+
+## Rule: No Flex Centering for Staggered Content
+
+**Problem:** When elements appear one by one in a `display: flex; justify-content: center` container, each new element rebalances the center point, causing earlier elements to jump up. This is jarring.
+
+**Fix:** Use `position: absolute` with fixed `top`/`bottom` values for each content block. Elements stay pinned at their positions regardless of what else appears.
+
+```tsx
+// ❌ Bad — flex centering shifts everything when new elements appear
+<div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+  {showTitle && <Title />}
+  {showFeatures && <Features />}  {/* This appearing pushes Title up */}
+  {showCta && <CTA />}            {/* This pushes everything up again */}
+</div>
+
+// ✅ Good — absolute positioning, each element stays where it is
+<div style={{ position: "relative", width: "100%", height: "100%" }}>
+  <div style={{ position: "absolute", top: "25%", left: "50%", transform: "translate(-50%, -50%)" }}>
+    <Title />
+  </div>
+  <div style={{ position: "absolute", top: "55%", left: "50%", transform: "translate(-50%, -50%)" }}>
+    <Features />
+  </div>
+  <div style={{ position: "absolute", bottom: 100, left: "50%", transform: "translateX(-50%)" }}>
+    <CTA />
+  </div>
+</div>
+```
+
+---
+
 # Remotion `<Sequence>` Layout Gotcha
 
 ## The Problem

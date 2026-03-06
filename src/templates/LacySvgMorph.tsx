@@ -245,7 +245,7 @@ export const LacySvgMorph: React.FC<LacySvgMorphProps> = ({
         })}
       </svg>
 
-      {/* Content overlay */}
+      {/* Content overlay — absolute positioned to prevent layout shift */}
       <div
         style={{
           position: "absolute",
@@ -253,52 +253,53 @@ export const LacySvgMorph: React.FC<LacySvgMorphProps> = ({
           left: 0,
           width: "100%",
           height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
           zIndex: 10,
         }}
       >
         {/* Title */}
-        {titleFrame >= 0 && (
+        <div
+          style={{
+            position: "absolute",
+            top: "28%",
+            left: "50%",
+            transform: `translate(-50%, -50%) translateY(${titleFrame >= 0 ? titleY : 40}px)`,
+            opacity: titleFrame >= 0 ? titleOpacity : 0,
+            textAlign: "center",
+          }}
+        >
           <div
             style={{
-              opacity: titleOpacity,
-              transform: `translateY(${titleY}px)`,
-              textAlign: "center",
+              fontSize: 76,
+              fontFamily: typography.heading.family,
+              fontStyle: "italic",
+              color: "#fafafa",
+              textShadow: `0 0 50px ${accentColor}50`,
+              whiteSpace: "nowrap",
             }}
           >
-            <div
-              style={{
-                fontSize: 76,
-                fontFamily: typography.heading.family,
-                fontStyle: "italic",
-                color: "#fafafa",
-                textShadow: `0 0 50px ${accentColor}50`,
-              }}
-            >
-              Lacy <span style={{ color: accentColor }}>Shell</span>
-            </div>
-            <div
-              style={{
-                fontSize: 22,
-                fontFamily: typography.body.family,
-                color: "rgba(255,255,255,0.45)",
-                marginTop: 14,
-              }}
-            >
-              Talk to your terminal. It understands.
-            </div>
+            Lacy <span style={{ color: accentColor }}>Shell</span>
           </div>
-        )}
+          <div
+            style={{
+              fontSize: 22,
+              fontFamily: typography.body.family,
+              color: "rgba(255,255,255,0.45)",
+              marginTop: 14,
+            }}
+          >
+            Talk to your terminal. It understands.
+          </div>
+        </div>
 
         {/* Stats row */}
         <div
           style={{
+            position: "absolute",
+            top: "55%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
             display: "flex",
             gap: 80,
-            marginTop: 60,
           }}
         >
           {stats.map((stat, i) => {
@@ -347,30 +348,31 @@ export const LacySvgMorph: React.FC<LacySvgMorphProps> = ({
         </div>
 
         {/* CTA */}
-        {ctaFrame >= 0 && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 100,
+            left: "50%",
+            transform: "translateX(-50%)",
+            opacity: ctaFrame >= 0 ? ctaOpacity : 0,
+            textAlign: "center",
+          }}
+        >
           <div
             style={{
-              marginTop: 50,
-              opacity: ctaOpacity,
-              textAlign: "center",
+              display: "inline-block",
+              padding: "14px 36px",
+              borderRadius: 12,
+              background: `${accentColor}15`,
+              border: `1px solid ${accentColor}40`,
+              fontFamily: typography.body.family,
+              fontSize: 20,
+              color: accentColor,
             }}
           >
-            <div
-              style={{
-                display: "inline-block",
-                padding: "14px 36px",
-                borderRadius: 12,
-                background: `${accentColor}15`,
-                border: `1px solid ${accentColor}40`,
-                fontFamily: typography.body.family,
-                fontSize: 20,
-                color: accentColor,
-              }}
-            >
-              lacy.sh
-            </div>
+            lacy.sh
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

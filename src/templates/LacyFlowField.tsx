@@ -203,7 +203,7 @@ export const LacyFlowField: React.FC<LacyFlowFieldProps> = ({
         }}
       />
 
-      {/* Text content */}
+      {/* Text content — absolute positioned to prevent layout shift */}
       <div
         style={{
           position: "absolute",
@@ -211,114 +211,117 @@ export const LacyFlowField: React.FC<LacyFlowFieldProps> = ({
           left: 0,
           width: "100%",
           height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
           zIndex: 10,
         }}
       >
         {/* Title */}
-        {titleFrame >= 0 && (
+        <div
+          style={{
+            position: "absolute",
+            top: "25%",
+            left: "50%",
+            transform: `translate(-50%, -50%) scale(${titleFrame >= 0 ? titleScale : 0.9})`,
+            opacity: titleFrame >= 0 ? titleOpacity : 0,
+            textAlign: "center",
+          }}
+        >
           <div
             style={{
-              opacity: titleOpacity,
-              transform: `scale(${titleScale})`,
-              textAlign: "center",
+              fontSize: 84,
+              fontFamily: typography.heading.family,
+              fontStyle: "italic",
+              color: "#fafafa",
+              textShadow: `0 0 60px ${accentColor}40`,
+              whiteSpace: "nowrap",
             }}
           >
-            <div
-              style={{
-                fontSize: 84,
-                fontFamily: typography.heading.family,
-                fontStyle: "italic",
-                color: "#fafafa",
-                textShadow: `0 0 60px ${accentColor}40`,
-              }}
-            >
-              Lacy <span style={{ color: accentColor }}>Shell</span>
-            </div>
-            <div
-              style={{
-                fontSize: 24,
-                fontFamily: typography.body.family,
-                color: "rgba(255,255,255,0.5)",
-                marginTop: 12,
-              }}
-            >
-              The AI-native terminal
-            </div>
+            Lacy <span style={{ color: accentColor }}>Shell</span>
           </div>
-        )}
+          <div
+            style={{
+              fontSize: 24,
+              fontFamily: typography.body.family,
+              color: "rgba(255,255,255,0.5)",
+              marginTop: 12,
+            }}
+          >
+            The AI-native terminal
+          </div>
+        </div>
 
         {/* Feature cycle */}
-        {frame >= FEATURE_START && featureIndex < features.length && (
-          <div
-            style={{
-              marginTop: 60,
-              opacity: featureOpacity,
-              transform: `translateY(${featureY}px)`,
-              textAlign: "center",
-            }}
-          >
-            <div
-              style={{
-                fontSize: 44,
-                fontFamily: typography.heading.family,
-                fontStyle: "italic",
-                color: accentColor2,
-              }}
-            >
-              {features[featureIndex].label}
-            </div>
-            <div
-              style={{
-                fontSize: 20,
-                fontFamily: typography.body.family,
-                color: "rgba(255,255,255,0.5)",
-                marginTop: 8,
-              }}
-            >
-              {features[featureIndex].desc}
-            </div>
-          </div>
-        )}
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: `translate(-50%, -50%) translateY(${frame >= FEATURE_START ? featureY : 20}px)`,
+            opacity: featureOpacity,
+            textAlign: "center",
+          }}
+        >
+          {frame >= FEATURE_START && featureIndex < features.length && (
+            <>
+              <div
+                style={{
+                  fontSize: 44,
+                  fontFamily: typography.heading.family,
+                  fontStyle: "italic",
+                  color: accentColor2,
+                }}
+              >
+                {features[featureIndex].label}
+              </div>
+              <div
+                style={{
+                  fontSize: 20,
+                  fontFamily: typography.body.family,
+                  color: "rgba(255,255,255,0.5)",
+                  marginTop: 8,
+                }}
+              >
+                {features[featureIndex].desc}
+              </div>
+            </>
+          )}
+        </div>
 
         {/* CTA */}
-        {ctaFrame >= 0 && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 100,
+            left: "50%",
+            transform: "translateX(-50%)",
+            opacity: ctaFrame >= 0 ? ctaOpacity : 0,
+            textAlign: "center",
+          }}
+        >
           <div
             style={{
-              marginTop: 50,
-              opacity: ctaOpacity,
-              textAlign: "center",
+              display: "inline-block",
+              padding: "14px 36px",
+              borderRadius: 12,
+              background: `${accentColor}15`,
+              border: `1px solid ${accentColor}40`,
+              fontFamily: typography.body.family,
+              fontSize: 20,
+              color: accentColor,
             }}
           >
-            <div
-              style={{
-                display: "inline-block",
-                padding: "14px 36px",
-                borderRadius: 12,
-                background: `${accentColor}15`,
-                border: `1px solid ${accentColor}40`,
-                fontFamily: typography.body.family,
-                fontSize: 20,
-                color: accentColor,
-              }}
-            >
-              $ npx lacy
-            </div>
-            <div
-              style={{
-                marginTop: 14,
-                fontSize: 15,
-                fontFamily: typography.body.family,
-                color: "rgba(255,255,255,0.3)",
-              }}
-            >
-              lacy.sh
-            </div>
+            $ npx lacy
           </div>
-        )}
+          <div
+            style={{
+              marginTop: 14,
+              fontSize: 15,
+              fontFamily: typography.body.family,
+              color: "rgba(255,255,255,0.3)",
+            }}
+          >
+            lacy.sh
+          </div>
+        </div>
       </div>
     </div>
   );

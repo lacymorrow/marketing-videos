@@ -130,7 +130,7 @@ export const LacyHero: React.FC<LacyHeroProps> = ({
         }}
       />
 
-      {/* Content */}
+      {/* Content — absolute positioned elements to prevent layout shift */}
       <div
         style={{
           position: "absolute",
@@ -138,158 +138,158 @@ export const LacyHero: React.FC<LacyHeroProps> = ({
           left: 0,
           width: "100%",
           height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: 80,
           zIndex: 10,
         }}
       >
-        {/* Title block */}
-        {titleFrame >= 0 && (
+        {/* Title block — pinned at top region */}
+        <div
+          style={{
+            position: "absolute",
+            top: 80,
+            left: 0,
+            width: "100%",
+            textAlign: "center",
+            opacity: titleFrame >= 0 ? titleOpacity : 0,
+            transform: `translateY(${titleFrame >= 0 ? titleY : 40}px)`,
+          }}
+        >
           <div
             style={{
-              opacity: titleOpacity,
-              transform: `translateY(${titleY}px)`,
-              textAlign: "center",
-              marginBottom: 12,
+              fontSize: 80,
+              fontFamily: typography.heading.family,
+              fontWeight: 400,
+              color: "#fafafa",
+              fontStyle: "italic",
+              letterSpacing: "-0.01em",
             }}
           >
-            <div
-              style={{
-                fontSize: 80,
-                fontFamily: typography.heading.family,
-                fontWeight: 400,
-                color: "#fafafa",
-                fontStyle: "italic",
-                letterSpacing: "-0.01em",
-              }}
-            >
-              Talk to your <em style={{ color: accentColor }}>shell</em>
-            </div>
+            Talk to your <em style={{ color: accentColor }}>shell</em>
           </div>
-        )}
+        </div>
 
         {/* Glowing accent line */}
-        {titleFrame >= 10 && (
-          <div
-            style={{
-              width: lineWidth,
-              height: 2,
-              background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)`,
-              boxShadow: `0 0 20px ${accentColor}60`,
-              marginBottom: 16,
-            }}
-          />
-        )}
+        <div
+          style={{
+            position: "absolute",
+            top: 178,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: lineWidth,
+            height: 2,
+            background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)`,
+            boxShadow: `0 0 20px ${accentColor}60`,
+            opacity: titleFrame >= 10 ? 1 : 0,
+          }}
+        />
 
         {/* Subtitle */}
-        {subFrame >= 0 && (
-          <div
-            style={{
-              opacity: subOpacity,
-              fontSize: 22,
-              fontFamily: typography.body.family,
-              color: "rgba(255,255,255,0.5)",
-              textAlign: "center",
-              maxWidth: 600,
-              lineHeight: 1.6,
-              marginBottom: 40,
-            }}
-          >
-            Commands run in your shell. Questions go to AI.
-            <br />
-            No prefixes. You type, it figures it out.
-          </div>
-        )}
+        <div
+          style={{
+            position: "absolute",
+            top: 196,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: 600,
+            textAlign: "center",
+            opacity: subFrame >= 0 ? subOpacity : 0,
+            fontSize: 22,
+            fontFamily: typography.body.family,
+            color: "rgba(255,255,255,0.5)",
+            lineHeight: 1.6,
+          }}
+        >
+          Commands run in your shell. Questions go to AI.
+          <br />
+          No prefixes. You type, it figures it out.
+        </div>
 
         {/* Terminal demo */}
-        {termFrame >= 0 && (
-          <div
-            style={{
-              opacity: termOpacity,
-              transform: `translateY(${termY}px)`,
-              width: "80%",
-              maxWidth: 800,
-            }}
-          >
-            <TerminalWindow
-              startFrame={0}
-              title="lacy — zsh"
-              accentColor={accentColor}
-              typingSpeed={2}
-              lines={[
-                {
-                  command: "ls -la",
-                  tag: "shell",
-                  output: "drwxr-xr-x  12 user  staff  384 Feb 3 09:21 .",
-                  delay: 5,
-                },
-                {
-                  command: "what files are here",
-                  tag: "agent",
-                  output: "You have 12 files including package.json, src/, ...",
-                  delay: 20,
-                },
-                {
-                  command: "git status",
-                  tag: "shell",
-                  delay: 20,
-                },
-                {
-                  command: "fix the build error in src/index.ts",
-                  tag: "agent",
-                  delay: 15,
-                },
-                {
-                  command: "make sure the tests pass",
-                  tag: "reroute",
-                  output: "No rule for 'sure' → rerouting to AI...",
-                  delay: 20,
-                },
-              ]}
-            />
-          </div>
-        )}
+        <div
+          style={{
+            position: "absolute",
+            top: 300,
+            left: "50%",
+            transform: `translateX(-50%) translateY(${termFrame >= 0 ? termY : 60}px)`,
+            width: "80%",
+            maxWidth: 800,
+            opacity: termFrame >= 0 ? termOpacity : 0,
+          }}
+        >
+          <TerminalWindow
+            startFrame={0}
+            title="lacy — zsh"
+            accentColor={accentColor}
+            typingSpeed={2}
+            lines={[
+              {
+                command: "ls -la",
+                tag: "shell",
+                output: "drwxr-xr-x  12 user  staff  384 Feb 3 09:21 .",
+                delay: 5,
+              },
+              {
+                command: "what files are here",
+                tag: "agent",
+                output: "You have 12 files including package.json, src/, ...",
+                delay: 20,
+              },
+              {
+                command: "git status",
+                tag: "shell",
+                delay: 20,
+              },
+              {
+                command: "fix the build error in src/index.ts",
+                tag: "agent",
+                delay: 15,
+              },
+              {
+                command: "make sure the tests pass",
+                tag: "reroute",
+                output: "No rule for 'sure' → rerouting to AI...",
+                delay: 20,
+              },
+            ]}
+          />
+        </div>
 
         {/* CTA */}
-        {ctaFrame >= 0 && (
+        <div
+          style={{
+            position: "absolute",
+            bottom: 80,
+            left: "50%",
+            transform: `translateX(-50%) scale(${ctaFrame >= 0 ? ctaScale : 0})`,
+            opacity: ctaFrame >= 0 ? ctaOpacity : 0,
+            textAlign: "center",
+          }}
+        >
           <div
             style={{
-              marginTop: 40,
-              opacity: ctaOpacity,
-              transform: `scale(${ctaScale})`,
-              textAlign: "center",
+              display: "inline-block",
+              padding: "14px 36px",
+              borderRadius: 12,
+              background: `${accentColor}15`,
+              border: `1px solid ${accentColor}40`,
+              boxShadow: `0 0 ${30 * ctaGlow}px ${accentColor}30`,
+              fontFamily: typography.body.family,
+              fontSize: 20,
+              color: accentColor,
             }}
           >
-            <div
-              style={{
-                display: "inline-block",
-                padding: "14px 36px",
-                borderRadius: 12,
-                background: `${accentColor}15`,
-                border: `1px solid ${accentColor}40`,
-                boxShadow: `0 0 ${30 * ctaGlow}px ${accentColor}30`,
-                fontFamily: typography.body.family,
-                fontSize: 20,
-                color: accentColor,
-              }}
-            >
-              $ curl -fsSL lacy.sh/install | bash
-            </div>
-            <div
-              style={{
-                marginTop: 16,
-                fontSize: 15,
-                fontFamily: typography.body.family,
-                color: "rgba(255,255,255,0.3)",
-              }}
-            >
-              lacy.sh
-            </div>
+            $ curl -fsSL lacy.sh/install | bash
           </div>
-        )}
+          <div
+            style={{
+              marginTop: 16,
+              fontSize: 15,
+              fontFamily: typography.body.family,
+              color: "rgba(255,255,255,0.3)",
+            }}
+          >
+            lacy.sh
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -205,7 +205,7 @@ export const LacyThreeD: React.FC<LacyThreeDProps> = ({
         )}
       </ThreeCanvas>
 
-      {/* Text overlay */}
+      {/* Text overlay — absolute positioned to prevent layout shift */}
       <div
         style={{
           position: "absolute",
@@ -213,47 +213,57 @@ export const LacyThreeD: React.FC<LacyThreeDProps> = ({
           left: 0,
           width: "100%",
           height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
           zIndex: 10,
           pointerEvents: "none",
         }}
       >
+        {/* Title */}
         <div
           style={{
+            position: "absolute",
+            top: "35%",
+            left: "50%",
+            transform: `translate(-50%, -50%) translateY(${titleY}px)`,
             opacity: titleOpacity,
-            transform: `translateY(${titleY}px)`,
             fontSize: 72,
             fontFamily: typography.heading.family,
             fontStyle: "italic",
             color: "#fafafa",
             textShadow: `0 0 40px ${accentColor}60, 0 4px 20px rgba(0,0,0,0.8)`,
             textAlign: "center",
+            whiteSpace: "nowrap",
           }}
         >
           Lacy <span style={{ color: accentColor }}>Shell</span>
         </div>
 
+        {/* Subtitle */}
         <div
           style={{
+            position: "absolute",
+            top: "46%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
             opacity: subOpacity,
             fontSize: 26,
             fontFamily: typography.body.family,
             color: "rgba(255,255,255,0.6)",
-            marginTop: 16,
             textShadow: "0 2px 10px rgba(0,0,0,0.8)",
+            whiteSpace: "nowrap",
           }}
         >
           Your terminal, upgraded with AI
         </div>
 
+        {/* CTA */}
         <Sequence from={durationInFrames - 120} layout="none">
           <div
             style={{
+              position: "absolute",
+              bottom: 120,
+              left: "50%",
+              transform: "translateX(-50%)",
               opacity: ctaOpacity,
-              marginTop: 40,
               padding: "14px 36px",
               borderRadius: 12,
               background: `${accentColor}20`,
@@ -262,6 +272,7 @@ export const LacyThreeD: React.FC<LacyThreeDProps> = ({
               fontFamily: typography.body.family,
               fontSize: 20,
               color: accentColor,
+              whiteSpace: "nowrap",
             }}
           >
             $ brew install lacymorrow/tap/lacy
