@@ -1,0 +1,36 @@
+{
+  "name": "marketing-videos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts",
+    "render:all": "remotion render src/index.ts ProductLaunch out/product-launch.mp4 && remotion render src/index.ts FeatureShowcase out/feature-showcase.mp4 && remotion render src/index.ts SocialProof out/social-proof.mp4 && remotion render src/index.ts AppDemo out/app-demo.mp4",
+    "render:launch": "remotion render src/index.ts ProductLaunch out/product-launch.mp4",
+    "render:features": "remotion render src/index.ts FeatureShowcase out/feature-showcase.mp4",
+    "render:social": "remotion render src/index.ts SocialProof out/social-proof.mp4",
+    "render:demo": "remotion render src/index.ts AppDemo out/app-demo.mp4",
+    "render:square": "remotion render src/index.ts ProductLaunch-Square out/product-launch-square.mp4",
+    "render:vertical": "remotion render src/index.ts ProductLaunch-Vertical out/product-launch-vertical.mp4"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "@remotion/bundler": "^4.0.432",
+    "@remotion/cli": "^4.0.432",
+    "@remotion/renderer": "^4.0.432",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "remotion": "^4.0.432"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "tailwindcss": "^4.2.1",
+    "typescript": "^5.9.3"
+  }
+}

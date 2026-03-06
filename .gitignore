@@ -1,0 +1,7 @@
+node_modules/
+dist/
+out/
+*.mp4
+*.webm
+*.gif
+.DS_Store
