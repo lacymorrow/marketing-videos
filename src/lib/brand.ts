@@ -10,17 +10,17 @@
 // ─── Color Palettes ──────────────────────────────────────────────
 
 export const palettes = {
-  /** Default: Developer tools dark + green CTA */
+  /** Default: lacy.sh brand (dark + violet/green) */
   devtools: {
-    name: "Developer Tools",
-    primary: "#1E293B",
-    secondary: "#334155",
-    accent: "#22C55E",
-    background: "#0F172A",
-    text: "#F8FAFC",
-    textMuted: "rgba(248, 250, 252, 0.6)",
-    surface: "rgba(255, 255, 255, 0.05)",
-    border: "rgba(255, 255, 255, 0.1)",
+    name: "Lacy Shell",
+    primary: "#09090b",
+    secondary: "#18181b",
+    accent: "#c084fc",
+    background: "#09090b",
+    text: "#fafafa",
+    textMuted: "rgba(250, 250, 250, 0.5)",
+    surface: "rgba(192, 132, 252, 0.06)",
+    border: "rgba(192, 132, 252, 0.15)",
   },
 
   /** Vibrant: Electric blue + purple for high-energy videos */
@@ -70,16 +70,16 @@ export type Palette = (typeof palettes)[PaletteName];
 
 export const typography = {
   heading: {
-    family: "'Space Grotesk', system-ui, sans-serif",
-    weights: { regular: 400, medium: 500, semibold: 600, bold: 700 },
+    family: "'Instrument Serif', Georgia, serif",
+    weights: { regular: 400 },
   },
   body: {
-    family: "'DM Sans', system-ui, sans-serif",
-    weights: { regular: 400, medium: 500, bold: 700 },
+    family: "'DM Mono', 'SF Mono', 'Fira Code', monospace",
+    weights: { regular: 400, medium: 500 },
   },
   /** Google Fonts import URL */
   googleFontsUrl:
-    "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap",
+    "https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif&display=swap",
 } as const;
 
 // ─── Video Sizes ─────────────────────────────────────────────────

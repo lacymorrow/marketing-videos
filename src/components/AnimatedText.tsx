@@ -1,5 +1,6 @@
 import React from "react";
 import { useCurrentFrame, useVideoConfig, spring, interpolate, Easing } from "remotion";
+import { typography } from "../lib/brand";
 
 interface AnimatedTextProps {
   text: string;
@@ -28,7 +29,7 @@ export const AnimatedText: React.FC<AnimatedTextProps> = ({
     fontSize,
     color,
     fontWeight,
-    fontFamily: "'Inter', 'SF Pro Display', system-ui, sans-serif",
+    fontFamily: typography.heading.family,
     lineHeight: 1.2,
     ...style,
   };

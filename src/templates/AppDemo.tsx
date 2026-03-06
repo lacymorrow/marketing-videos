@@ -9,6 +9,7 @@ import {
   Img,
 } from "remotion";
 import { GradientBackground } from "../components/GradientBackground";
+import { typography } from "../lib/brand";
 import { AnimatedText } from "../components/AnimatedText";
 
 interface Step {
@@ -95,7 +96,7 @@ export const AppDemo: React.FC<AppDemoProps> = ({
               padding: "6px 12px",
               fontSize: 13,
               color: "rgba(255,255,255,0.4)",
-              fontFamily: "'Inter', system-ui, sans-serif",
+              fontFamily: typography.body.family,
             }}
           >
             {productName.toLowerCase().replace(/\s+/g, "")}.com
@@ -250,7 +251,7 @@ export const AppDemo: React.FC<AppDemoProps> = ({
                         fontSize: 22,
                         color: "rgba(255,255,255,0.8)",
                         fontWeight: 500,
-                        fontFamily: "'Inter', system-ui, sans-serif",
+                        fontFamily: typography.body.family,
                       }}
                     >
                       {step.label}

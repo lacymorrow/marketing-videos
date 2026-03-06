@@ -8,6 +8,7 @@ import {
   Sequence,
 } from "remotion";
 import { GradientBackground } from "../components/GradientBackground";
+import { typography } from "../lib/brand";
 import { AnimatedText } from "../components/AnimatedText";
 
 interface Feature {
@@ -148,7 +149,7 @@ export const FeatureShowcase: React.FC<FeatureShowcaseProps> = ({
                 fontSize: 72,
                 fontWeight: 800,
                 color: "#ffffff",
-                fontFamily: "'Inter', system-ui, sans-serif",
+                fontFamily: typography.body.family,
                 letterSpacing: "-0.02em",
                 opacity: interpolate(localFrame, [5, 25], [0, 1], {
                   extrapolateLeft: "clamp",
@@ -170,7 +171,7 @@ export const FeatureShowcase: React.FC<FeatureShowcaseProps> = ({
                 marginTop: 20,
                 fontSize: 32,
                 color: "rgba(255,255,255,0.7)",
-                fontFamily: "'Inter', system-ui, sans-serif",
+                fontFamily: typography.body.family,
                 fontWeight: 400,
                 maxWidth: 700,
                 lineHeight: 1.5,

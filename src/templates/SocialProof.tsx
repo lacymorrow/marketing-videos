@@ -8,6 +8,7 @@ import {
   Sequence,
 } from "remotion";
 import { GradientBackground } from "../components/GradientBackground";
+import { typography } from "../lib/brand";
 
 interface Stat {
   value: string;
@@ -79,7 +80,7 @@ export const SocialProof: React.FC<SocialProofProps> = ({
               fontSize: 24,
               color: brandColor,
               fontWeight: 600,
-              fontFamily: "'Inter', system-ui, sans-serif",
+              fontFamily: typography.body.family,
               letterSpacing: "0.1em",
               textTransform: "uppercase" as const,
               opacity: interpolate(frame, [0, 15], [0, 1], {
@@ -132,7 +133,7 @@ export const SocialProof: React.FC<SocialProofProps> = ({
                       fontSize: 72,
                       fontWeight: 800,
                       color: "#ffffff",
-                      fontFamily: "'Inter', system-ui, sans-serif",
+                      fontFamily: typography.body.family,
                       letterSpacing: "-0.02em",
                     }}
                   >
@@ -143,7 +144,7 @@ export const SocialProof: React.FC<SocialProofProps> = ({
                       fontSize: 20,
                       color: "rgba(255,255,255,0.5)",
                       fontWeight: 500,
-                      fontFamily: "'Inter', system-ui, sans-serif",
+                      fontFamily: typography.body.family,
                       marginTop: 8,
                     }}
                   >
@@ -204,7 +205,7 @@ export const SocialProof: React.FC<SocialProofProps> = ({
                 fontSize: 36,
                 color: "rgba(255,255,255,0.9)",
                 fontWeight: 400,
-                fontFamily: "'Inter', system-ui, sans-serif",
+                fontFamily: typography.body.family,
                 fontStyle: "italic" as const,
                 lineHeight: 1.6,
                 marginTop: 20,
@@ -246,7 +247,7 @@ export const SocialProof: React.FC<SocialProofProps> = ({
                   fontSize: 22,
                   color: "#ffffff",
                   fontWeight: 600,
-                  fontFamily: "'Inter', system-ui, sans-serif",
+                  fontFamily: typography.body.family,
                 }}
               >
                 {testimonial.author}
@@ -256,7 +257,7 @@ export const SocialProof: React.FC<SocialProofProps> = ({
                   fontSize: 16,
                   color: "rgba(255,255,255,0.4)",
                   fontWeight: 400,
-                  fontFamily: "'Inter', system-ui, sans-serif",
+                  fontFamily: typography.body.family,
                   marginTop: 4,
                 }}
               >

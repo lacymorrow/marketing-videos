@@ -8,6 +8,7 @@ import {
   Sequence,
 } from "remotion";
 import { GradientBackground } from "../components/GradientBackground";
+import { typography } from "../lib/brand";
 import { AnimatedText } from "../components/AnimatedText";
 
 interface ProductLaunchProps {
@@ -153,7 +154,7 @@ export const ProductLaunch: React.FC<ProductLaunchProps> = ({
                     border: "1px solid rgba(255,255,255,0.15)",
                     color: "#ffffff",
                     fontSize: Math.min(22, width * 0.012),
-                    fontFamily: "'Inter', system-ui, sans-serif",
+                    fontFamily: typography.body.family,
                     fontWeight: 500,
                   }}
                 >
