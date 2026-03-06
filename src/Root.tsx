@@ -3,6 +3,7 @@ import { ProductLaunch } from "./templates/ProductLaunch";
 import { FeatureShowcase } from "./templates/FeatureShowcase";
 import { SocialProof } from "./templates/SocialProof";
 import { AppDemo } from "./templates/AppDemo";
+import { LacyHero } from "./templates/LacyHero";
 import { palettes, brands, typography } from "./lib/brand";
 
 // ─── Lacy Shell ──────────────────────────────────────────────────
@@ -80,6 +81,22 @@ const lacyDemoDefaults = {
 export const RemotionRoot: React.FC = () => {
   return (
     <>
+      {/* ─── Lacy Shell Hero (fancy particles + terminal) ──── */}
+
+      <Composition
+        id="LacyShell-Hero"
+        component={LacyHero}
+        durationInFrames={480}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{
+          accentColor: "#c084fc",
+          accentColor2: "#22c55e",
+          backgroundColor: "#09090b",
+        }}
+      />
+
       {/* ─── Lacy Shell Videos ──────────────────────────────── */}
 
       <Composition

@@ -7,7 +7,8 @@
     "dev": "remotion studio src/index.ts",
     "render": "remotion render src/index.ts",
     "render:all": "npm run render:lacy",
-    "render:lacy": "remotion render src/index.ts LacyShell-Launch out/lacy-launch.mp4 && remotion render src/index.ts LacyShell-Features out/lacy-features.mp4 && remotion render src/index.ts LacyShell-Social out/lacy-social.mp4 && remotion render src/index.ts LacyShell-Demo out/lacy-demo.mp4",
+    "render:lacy": "remotion render src/index.ts LacyShell-Hero out/lacy-hero.mp4 && remotion render src/index.ts LacyShell-Launch out/lacy-launch.mp4 && remotion render src/index.ts LacyShell-Features out/lacy-features.mp4 && remotion render src/index.ts LacyShell-Social out/lacy-social.mp4 && remotion render src/index.ts LacyShell-Demo out/lacy-demo.mp4",
+    "render:hero": "remotion render src/index.ts LacyShell-Hero out/lacy-hero.mp4",
     "render:lacy:square": "remotion render src/index.ts LacyShell-Launch-Square out/lacy-launch-square.mp4",
     "render:lacy:vertical": "remotion render src/index.ts LacyShell-Launch-Vertical out/lacy-launch-vertical.mp4",
     "render:launch": "remotion render src/index.ts ProductLaunch out/product-launch.mp4",
@@ -22,6 +23,7 @@
   "dependencies": {
     "@remotion/bundler": "^4.0.432",
     "@remotion/cli": "^4.0.432",
+    "@remotion/noise": "^4.0.434",
     "@remotion/renderer": "^4.0.432",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",

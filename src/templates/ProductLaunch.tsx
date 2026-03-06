@@ -8,6 +8,7 @@ import {
   Sequence,
 } from "remotion";
 import { GradientBackground } from "../components/GradientBackground";
+import { ParticleField } from "../components/ParticleField";
 import { typography } from "../lib/brand";
 import { AnimatedText } from "../components/AnimatedText";
 
@@ -57,6 +58,19 @@ export const ProductLaunch: React.FC<ProductLaunchProps> = ({
         color2={accentColor}
         color3="#0a0a0a"
         pattern="mesh"
+      />
+
+      {/* Particle field overlay */}
+      <ParticleField
+        count={60}
+        color={accentColor}
+        color2={brandColor}
+        sizeRange={[1, 3]}
+        speed={0.005}
+        opacityRange={[0.1, 0.4]}
+        fadeInFrames={30}
+        style="glow"
+        connections={false}
       />
 
       {/* Content container */}
