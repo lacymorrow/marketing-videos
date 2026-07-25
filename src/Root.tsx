@@ -7,6 +7,8 @@ import { LacyHero } from "./templates/LacyHero";
 import { LacyThreeD } from "./templates/LacyThreeD";
 import { LacyFlowField } from "./templates/LacyFlowField";
 import { LacySvgMorph } from "./templates/LacySvgMorph";
+import { CrossOverPromo } from "./templates/CrossOverPromo";
+import { JunoDemo, type CaptionCue } from "./templates/JunoDemo";
 import { palettes, brands, typography } from "./lib/brand";
 
 // ─── Lacy Shell ──────────────────────────────────────────────────
@@ -81,6 +83,23 @@ const lacyDemoDefaults = {
   accentColor: lacy.palette.accent,
 };
 
+// ─── Juno Demo ───────────────────────────────────────────────────
+// Caption cues for 9:16 cut (burned-in, muted autoplay).
+// Timings match scene boundaries in JunoDemo.tsx (30fps).
+const junoCaptions: CaptionCue[] = [
+  { startFrame: 20,  endFrame: 90,  text: "Your Mac. On autopilot." },
+  { startFrame: 90,  endFrame: 148, text: "AI agent for macOS." },
+  { startFrame: 130, endFrame: 220, text: "Just describe what you want." },
+  { startFrame: 220, endFrame: 358, text: "\"Sort my Downloads folder by project\"" },
+  { startFrame: 330, endFrame: 508, text: "See — screenshots, live context." },
+  { startFrame: 480, endFrame: 658, text: "Act — click, type, drag natively." },
+  { startFrame: 630, endFrame: 808, text: "Remember — cross-session memory." },
+  { startFrame: 780, endFrame: 900, text: "Watch it work." },
+  { startFrame: 900, endFrame: 1108, text: "Sorted 847 files in 3 seconds." },
+  { startFrame: 1080, endFrame: 1320, text: "Automate anything." },
+  { startFrame: 1320, endFrame: 1410, text: "juno.build — Download free beta." },
+];
+
 export const RemotionRoot: React.FC = () => {
   return (
     <>
@@ -97,6 +116,53 @@ export const RemotionRoot: React.FC = () => {
           accentColor: "#c084fc",
           accentColor2: "#22c55e",
           backgroundColor: "#09090b",
+        }}
+      />
+
+      {/* ─── Juno Demo — 3 aspect ratios ──────────────────── */}
+
+      {/* 16:9 master (YouTube / reference) */}
+      <Composition
+        id="JunoDemo-Landscape"
+        component={JunoDemo}
+        durationInFrames={1410}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{
+          showCaptions: false,
+          captions: [],
+          watermark: "DRAFT — not approved",
+        }}
+      />
+
+      {/* 9:16 vertical — TikTok / Reels / Shorts, captions burned in */}
+      <Composition
+        id="JunoDemoVertical"
+        component={JunoDemo}
+        durationInFrames={1410}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          showCaptions: true,
+          captions: junoCaptions,
+          watermark: "DRAFT — not approved",
+        }}
+      />
+
+      {/* 1:1 square — X / feed placements */}
+      <Composition
+        id="JunoDemoSquare"
+        component={JunoDemo}
+        durationInFrames={1410}
+        fps={30}
+        width={1080}
+        height={1080}
+        defaultProps={{
+          showCaptions: false,
+          captions: [],
+          watermark: "DRAFT — not approved",
         }}
       />
 
@@ -225,6 +291,50 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
         defaultProps={lacyLaunchDefaults}
+      />
+
+      {/* ─── CrossOver Promo (3 aspect ratios) ─────────────── */}
+
+      <Composition
+        id="CrossOver-Promo-Vertical"
+        component={CrossOverPromo}
+        durationInFrames={900}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{
+          accentColor: "#ff3a3a",
+          backgroundColor: "#080808",
+          ctaText: "Search 'CrossOver' on the Microsoft Store or grab it from GitHub.",
+        }}
+      />
+
+      <Composition
+        id="CrossOver-Promo-Landscape"
+        component={CrossOverPromo}
+        durationInFrames={900}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{
+          accentColor: "#ff3a3a",
+          backgroundColor: "#080808",
+          ctaText: "Search 'CrossOver' on the Microsoft Store or grab it from GitHub.",
+        }}
+      />
+
+      <Composition
+        id="CrossOver-Promo-Square"
+        component={CrossOverPromo}
+        durationInFrames={900}
+        fps={30}
+        width={1080}
+        height={1080}
+        defaultProps={{
+          accentColor: "#ff3a3a",
+          backgroundColor: "#080808",
+          ctaText: "Search 'CrossOver' on the Microsoft Store or grab it from GitHub.",
+        }}
       />
 
       {/* ─── Generic Templates (for other projects) ─────────── */}
