@@ -9,7 +9,7 @@ const useInOut = (len = 12) => {
   return interpolate(frame, [0, len, durationInFrames - len, durationInFrames - 1], [0, 1, 1, 0], clamp);
 };
 
-export interface LogCardProps {
+export type LogCardProps = {
   // Exact quotes from the log. Wrap the part to highlight in [[double brackets]].
   lines: string[];
   label: string;
@@ -38,7 +38,7 @@ export const LogCard: React.FC<LogCardProps> = ({ lines, label }) => {
   );
 };
 
-export interface NumberCardProps {
+export type NumberCardProps = {
   rows: { n: string; what: string }[];
   label: string;
   source: string;

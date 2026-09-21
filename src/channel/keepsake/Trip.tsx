@@ -15,7 +15,8 @@ const GAP_Y = 150;
 const X0 = (2560 - (COLS * BOX_W + (COLS - 1) * GAP_X)) / 2;
 const Y0 = 560;
 
-export interface TripProps {
+// A type, not an interface: Remotion needs props assignable to Record<string, unknown>.
+export type TripProps = {
   // Seconds at which each hop appears. Retime to the recorded voice.
   hopAt: number[];
   freezeAt: number;
