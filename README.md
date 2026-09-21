@@ -123,7 +123,9 @@ Remotion's `<Sequence>` renders with `position: absolute` by default, which brea
 
 Remotion is pinned to 4.0.526 across every `@remotion/*` package. Versions before it exit 0 with no output on Node 26, because the headless browser never finishes unpacking. Install with `npm i --legacy-peer-deps` (react-three-fiber declares optional Expo peers).
 
-Agent skills are restored from `skills-lock.json` with `npx skills experimental_install`. The copies under `.claude/skills/remotion-*` are ignored by git.
+The official Remotion agent skills (`remotion-dev/skills`) are committed under `.claude/skills/remotion-*` so every session and clone has them. `skills-lock.json` records their source; update with `npx skills update`.
+
+`g10-case-evolution` and `g11-case-scale` read the case STLs from `public/keepsake/case/`, which is ignored by git. Copy the design files there before rendering those two.
 
 ## Agent Integration
 

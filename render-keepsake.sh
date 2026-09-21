@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 # Renders the graphics for the Keepsake build video into out/keepsake/.
 # IDs match ~/repo/keepsake/media/video-keepsake-recorder/storyboard.md.
+# g10 and g11 read Lacy's case STLs from public/keepsake/case/ (not in git).
 # Opaque scenes render as H.264 mp4. Overlays render as ProRes 4444 with alpha
 # for Resolve or Final Cut. Usage: ./render-keepsake.sh [id ...]
 set -euo pipefail
 cd "$(dirname "$0")"
 mkdir -p out/keepsake
 
-opaque=(g1-trip g3-wrap g5-96-boots)
+opaque=(g1-trip g3-wrap g5-96-boots g10-case-evolution g11-case-scale)
 overlay=(g2-gate g4-capped g6-converter g7-staged g8-not-filmed g9-recreated)
 want=("$@")
 
@@ -19,7 +20,7 @@ wanted() {
 
 for id in "${opaque[@]}"; do
   wanted "$id" || continue
-  npx remotion render src/index.ts "$id" "out/keepsake/$id.mp4" --crf=16
+  npx remotion render src/index.ts "$id" "out/keepsake/$id.mp4" --crf=16 --gl=angle
 done
 
 for id in "${overlay[@]}"; do
