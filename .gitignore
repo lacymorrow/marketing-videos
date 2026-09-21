@@ -5,3 +5,7 @@ out/
 *.webm
 *.gif
 .DS_Store
+*.mov
+
+# Third-party agent skills: restored from skills-lock.json with `npx skills experimental_install`
+.claude/skills/remotion-*/

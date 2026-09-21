@@ -35,14 +35,15 @@
   "type": "commonjs",
   "dependencies": {
     "@react-three/fiber": "^9.5.0",
-    "@remotion/bundler": "^4.0.432",
-    "@remotion/cli": "^4.0.432",
-    "@remotion/noise": "^4.0.432",
-    "@remotion/renderer": "^4.0.432",
-    "@remotion/three": "^4.0.432",
+    "@remotion/bundler": "4.0.526",
+    "@remotion/cli": "4.0.526",
+    "@remotion/google-fonts": "4.0.526",
+    "@remotion/noise": "4.0.526",
+    "@remotion/renderer": "4.0.526",
+    "@remotion/three": "4.0.526",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "remotion": "^4.0.432",
+    "remotion": "4.0.526",
     "three": "^0.183.2"
   },
   "devDependencies": {
