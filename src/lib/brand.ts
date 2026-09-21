@@ -143,6 +143,24 @@ export const brands = {
     websiteUrl: "buildandserve.com",
   },
 
+  /** CrossOver - gaming crosshair overlay */
+  crossover: {
+    palette: {
+      name: "CrossOver",
+      primary: "#080808",
+      secondary: "#141414",
+      accent: "#ff3a3a",
+      background: "#080808",
+      text: "#ffffff",
+      textMuted: "rgba(255, 255, 255, 0.5)",
+      surface: "rgba(255, 58, 58, 0.06)",
+      border: "rgba(255, 58, 58, 0.15)",
+    },
+    productName: "CrossOver",
+    tagline: "Your crosshair. Any game.",
+    websiteUrl: "github.com/lacymorrow/crossover",
+  },
+
   /** Default/generic */
   default: {
     palette: palettes.devtools,
