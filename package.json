@@ -38,6 +38,7 @@
     "@remotion/bundler": "4.0.531",
     "@remotion/cli": "4.0.531",
     "@remotion/google-fonts": "4.0.531",
+    "@remotion/media": "4.0.531",
     "@remotion/noise": "4.0.531",
     "@remotion/renderer": "4.0.531",
     "@remotion/three": "4.0.531",

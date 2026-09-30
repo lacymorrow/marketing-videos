@@ -1,5 +1,6 @@
 import React from "react";
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { Audio } from "@remotion/media";
+import { AbsoluteFill, interpolate, staticFile, useCurrentFrame } from "remotion";
 import { useRise } from "../parts";
 import { clamp, sec, theme } from "../theme";
 
@@ -32,8 +33,8 @@ const rowH = 92;
 const listTop = 450;
 const left = 700;
 
-// 10 s social / README card for shipx. Nine commands collapse into one prompt,
-// then the end card. Flat ink, one accent, house easing, no springs.
+// 10 s social / README card for shipx. Nine hand-typed commands become one
+// finished release, then the end card. Flat ink, one accent, house easing, no springs.
 export const ShipxCard: React.FC = () => {
   const frame = useCurrentFrame();
   const listOut = interpolate(frame, [t.out, t.out + 12], [1, 0], { ...clamp, easing: theme.ease });
@@ -42,6 +43,8 @@ export const ShipxCard: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ background: theme.ink, fontFamily: theme.mono }}>
+      {/* Synthesized in scripts/shipx-card-sfx.py; timed to `t` above. */}
+      <Audio src={staticFile("shipx/card-sfx.wav")} />
       <div style={{ opacity: listOut, translate: `0px ${(1 - listOut) * -24}px` }}>
         <div
           style={{
@@ -107,7 +110,7 @@ const EndCard: React.FC = () => {
         shipx
       </div>
       <div style={{ fontFamily: theme.sans, fontSize: 56, color: theme.mute, opacity: line, translate: `0px ${(1 - line) * 20}px` }}>
-        Nine commands. One prompt.
+        Never half-ship a release.
       </div>
       <div style={{ marginTop: 40, fontSize: 52, color: theme.accentOnInk, opacity: cta, translate: `0px ${(1 - cta) * 16}px` }}>
         npx @lacymorrow/shipx
