@@ -27,7 +27,8 @@
     "render:juno": "npm run render:juno:landscape && npm run render:juno:vertical && npm run render:juno:square",
     "render:juno:landscape": "remotion render src/index.ts JunoDemo-Landscape out/juno-demo-16x9.mp4",
     "render:juno:vertical": "remotion render src/index.ts JunoDemoVertical out/juno-demo-9x16.mp4",
-    "render:juno:square": "remotion render src/index.ts JunoDemoSquare out/juno-demo-1x1.mp4"
+    "render:juno:square": "remotion render src/index.ts JunoDemoSquare out/juno-demo-1x1.mp4",
+    "render:shipx": "remotion render src/index.ts shipx-card out/shipx/shipx-card.mp4 --crf=16"
   },
   "keywords": [],
   "author": "",
