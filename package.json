@@ -27,7 +27,8 @@
     "render:juno": "npm run render:juno:landscape && npm run render:juno:vertical && npm run render:juno:square",
     "render:juno:landscape": "remotion render src/index.ts JunoDemo-Landscape out/juno-demo-16x9.mp4",
     "render:juno:vertical": "remotion render src/index.ts JunoDemoVertical out/juno-demo-9x16.mp4",
-    "render:juno:square": "remotion render src/index.ts JunoDemoSquare out/juno-demo-1x1.mp4"
+    "render:juno:square": "remotion render src/index.ts JunoDemoSquare out/juno-demo-1x1.mp4",
+    "render:shipx": "remotion render src/index.ts shipx-card out/shipx/shipx-card.mp4 --crf=16"
   },
   "keywords": [],
   "author": "",
@@ -35,15 +36,16 @@
   "type": "commonjs",
   "dependencies": {
     "@react-three/fiber": "^9.5.0",
-    "@remotion/bundler": "4.0.526",
-    "@remotion/cli": "4.0.526",
-    "@remotion/google-fonts": "4.0.526",
-    "@remotion/noise": "4.0.526",
-    "@remotion/renderer": "4.0.526",
-    "@remotion/three": "4.0.526",
+    "@remotion/bundler": "4.0.531",
+    "@remotion/cli": "4.0.531",
+    "@remotion/google-fonts": "4.0.531",
+    "@remotion/media": "4.0.531",
+    "@remotion/noise": "4.0.531",
+    "@remotion/renderer": "4.0.531",
+    "@remotion/three": "4.0.531",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "remotion": "4.0.526",
+    "remotion": "4.0.531",
     "three": "^0.183.2"
   },
   "devDependencies": {

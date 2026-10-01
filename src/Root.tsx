@@ -11,6 +11,7 @@ import { CrossOverPromo } from "./templates/CrossOverPromo";
 import { JunoDemo, type CaptionCue } from "./templates/JunoDemo";
 import { palettes, brands, typography } from "./lib/brand";
 import { KeepsakeGraphics } from "./channel/keepsake";
+import { ShipxGraphics } from "./channel/shipx";
 
 // ─── Lacy Shell ──────────────────────────────────────────────────
 const lacy = brands.lacy;
@@ -425,6 +426,7 @@ export const RemotionRoot: React.FC = () => {
       />
       {/* ─── Channel graphics (YouTube build videos) ─────────────── */}
       <KeepsakeGraphics />
+      <ShipxGraphics />
     </>
   );
 };

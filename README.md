@@ -121,9 +121,11 @@ Remotion's `<Sequence>` renders with `position: absolute` by default, which brea
 - Render a still and look at it before rendering video: `npx remotion still src/index.ts g1-trip check.png --frame=1200`.
 - `g1-trip` takes `hopAt` (seconds per hop) and `freezeAt` as props. Retime them to the recorded voice.
 
-Remotion is pinned to 4.0.526 across every `@remotion/*` package. Versions before it exit 0 with no output on Node 26, because the headless browser never finishes unpacking. Install with `npm i --legacy-peer-deps` (react-three-fiber declares optional Expo peers).
+Remotion is pinned to 4.0.531 across every `@remotion/*` package (4.0.526 is the floor). Versions before it exit 0 with no output on Node 26, because the headless browser never finishes unpacking. Install with `npm i --legacy-peer-deps` (react-three-fiber declares optional Expo peers).
 
 The official Remotion agent skills (`remotion-dev/skills`) are committed under `.claude/skills/remotion-*` so every session and clone has them. `skills-lock.json` records their source; update with `npx skills update`.
+
+`src/channel/shipx/` holds `shipx-card`, a 10 s promo card with a synthesized sound pass. Render with `npm run render:shipx`; regenerate its audio with `./scripts/shipx-card-sfx.sh`. How it was built, and what to repeat next time: `docs/AGENT-VIDEO-PLAYBOOK.md`.
 
 `g10-case-evolution` and `g11-case-scale` read the case STLs from `public/keepsake/case/`, which is ignored by git. Copy the design files there before rendering those two.
 

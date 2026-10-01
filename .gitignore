@@ -10,3 +10,6 @@ out/
 
 # Case design files: local render inputs, not published
 public/keepsake/case/
+
+# Local git worktrees
+.worktrees/
