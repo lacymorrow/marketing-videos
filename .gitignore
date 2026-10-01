@@ -5,3 +5,8 @@ out/
 *.webm
 *.gif
 .DS_Store
+*.mov
+
+
+# Case design files: local render inputs, not published
+public/keepsake/case/

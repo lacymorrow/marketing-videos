@@ -111,6 +111,22 @@ Remotion's `<Sequence>` renders with `position: absolute` by default, which brea
 3. Add a render script to `package.json`
 4. Run `npm run dev` to preview, then render
 
+## Channel graphics (YouTube build videos)
+
+`src/channel/` holds the graphics for the maker channel. They do not share the marketing templates' look.
+
+- `src/channel/theme.ts` is the only source of colour, type and motion: paper, ink, one blue accent, cubic ease-out. No glow, no gradients, no springs.
+- One folder per video. `src/channel/keepsake/` is video one. Composition IDs match the graphics table in `~/repo/keepsake/media/video-keepsake-recorder/storyboard.md`.
+- `./render-keepsake.sh` renders everything into `out/keepsake/`. Opaque scenes are H.264 mp4. Overlays are ProRes 4444 with alpha. Pass IDs to render a subset: `./render-keepsake.sh g2-gate`.
+- Render a still and look at it before rendering video: `npx remotion still src/index.ts g1-trip check.png --frame=1200`.
+- `g1-trip` takes `hopAt` (seconds per hop) and `freezeAt` as props. Retime them to the recorded voice.
+
+Remotion is pinned to 4.0.526 across every `@remotion/*` package. Versions before it exit 0 with no output on Node 26, because the headless browser never finishes unpacking. Install with `npm i --legacy-peer-deps` (react-three-fiber declares optional Expo peers).
+
+The official Remotion agent skills (`remotion-dev/skills`) are committed under `.claude/skills/remotion-*` so every session and clone has them. `skills-lock.json` records their source; update with `npx skills update`.
+
+`g10-case-evolution` and `g11-case-scale` read the case STLs from `public/keepsake/case/`, which is ignored by git. Copy the design files there before rendering those two.
+
 ## Agent Integration
 
 This project is designed to be driven by AI agents:

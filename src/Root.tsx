@@ -10,6 +10,7 @@ import { LacySvgMorph } from "./templates/LacySvgMorph";
 import { CrossOverPromo } from "./templates/CrossOverPromo";
 import { JunoDemo, type CaptionCue } from "./templates/JunoDemo";
 import { palettes, brands, typography } from "./lib/brand";
+import { KeepsakeGraphics } from "./channel/keepsake";
 
 // ─── Lacy Shell ──────────────────────────────────────────────────
 const lacy = brands.lacy;
@@ -422,6 +423,8 @@ export const RemotionRoot: React.FC = () => {
           accentColor: palettes.devtools.accent,
         }}
       />
+      {/* ─── Channel graphics (YouTube build videos) ─────────────── */}
+      <KeepsakeGraphics />
     </>
   );
 };
