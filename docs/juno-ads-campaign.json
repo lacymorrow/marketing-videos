@@ -85,6 +85,116 @@
         ]
       ],
       "retired": "Lacy 2026-10-30: asking an assistant to open Calculator is silly when it can just answer. Do not use in new ads; make-juno-do-it already went out with it."
+    },
+    "receipts": {
+      "file": "juno-ads/clip-receipts.mp4",
+      "source": "public/takes/juno-voice-receipts-20261030-0854.mov (graphite), 55 s to 150 s, cropped 3520x1980 at (32,260)",
+      "spoken": "Make a new folder called Receipts, and move Headphones receipt and Kitchen remodel quote in there.",
+      "spokenAt": 0.5,
+      "resultAt": 78,
+      "segments": [
+        [
+          0,
+          4,
+          1
+        ],
+        [
+          4,
+          77,
+          6
+        ],
+        [
+          77,
+          79,
+          1
+        ],
+        [
+          79,
+          87,
+          5
+        ],
+        [
+          87,
+          93,
+          1
+        ]
+      ],
+      "poster": "juno-ads/clip-receipts-f0.png",
+      "camera": [
+        [
+          0,
+          0.5,
+          0.42,
+          2.2
+        ],
+        [
+          30,
+          0.5,
+          0.4,
+          2.0
+        ],
+        [
+          86,
+          0.5,
+          0.31,
+          1.6
+        ]
+      ]
+    },
+    "tidy": {
+      "file": "juno-ads/clip-tidy.mp4",
+      "source": "public/takes/juno-voice-tidy-20261030-0911.mov (graphite), 55 s to 300 s, cropped 3520x1980 at (32,260); 74 s to 180 s cut (answer card held, second spoken line)",
+      "spoken": "This folder is a mess. Put the screenshots in a folder called Screenshots, and the installers in one called Installers.",
+      "spokenAt": 0.5,
+      "resultAt": 66,
+      "segments": [
+        [
+          0,
+          5,
+          1
+        ],
+        [
+          5,
+          66,
+          6
+        ],
+        [
+          66,
+          73,
+          1
+        ],
+        [
+          180,
+          224,
+          8
+        ],
+        [
+          224,
+          234,
+          1
+        ]
+      ],
+      "poster": "juno-ads/clip-tidy-f0.png",
+      "camera": [
+        [
+          0,
+          0.5,
+          0.42,
+          2.2
+        ],
+        [
+          60,
+          0.5,
+          0.33,
+          1.9
+        ],
+        [
+          224,
+          0.5,
+          0.3,
+          1.6
+        ]
+      ]
     }
   },
   "ads": [
@@ -172,7 +282,7 @@
       "headline": [
         "Hand your work to Juno."
       ],
-      "clip": "folder",
+      "clip": "tidy",
       "subline": "Say it out loud. Watch it happen."
     },
     {
@@ -186,6 +296,17 @@
       "clip": "schedule",
       "scene": "Same take as every-morning: a scheduled job created by voice, then the result appearing later. Needs the rig.",
       "subline": "Runs scheduled jobs on your computer. Checks in when it matters."
+    },
+    {
+      "id": "receipts",
+      "status": "ready",
+      "mirrors": "Meta Muse: Crunch numbers in your sleep. / Let Muse manage your receipts.",
+      "headline": [
+        "Let Juno sort",
+        "your receipts."
+      ],
+      "clip": "receipts",
+      "subline": "It reads your files and files them. On your computer."
     }
   ]
 }
