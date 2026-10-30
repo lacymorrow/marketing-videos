@@ -3,7 +3,7 @@
 # Usage: GATE=60 MODEL=sonnet bash rails.sh [scene]     (scenes in scenes.txt; progress in ~/.cache/juno-demo-rig/progress)
 cd "$(dirname "$0")"; . ./lib.sh; set -m 2>/dev/null
 GATE=${GATE:-60}; MODEL=${MODEL:-sonnet}; PROG=$CACHE/progress; ATT=$CACHE/attempts; touch $PROG $ATT
-ALLOWED=" Finder Juno juno Window Server Dock Control Center Notification Center Spotlight Calculator Spotify Music "
+ALLOWED=" Finder Juno juno Window Server Dock Control Center Notification Center Spotlight Calculator Spotify Music Chess System Settings "
 SETTINGS="$HOME/Library/Application Support/com.juno.desktop/app_settings.json"
 juno_quiet(){ local l=$(grep -hE "agent-query-ready|Agent run complete|Queueing TTS|TurnTiming" "$(jlog)" | tail -1 | cut -c1-19); [ -z "$l" ] && { echo 9999; return; }
   local t=$(date -j -u -f "%Y-%m-%dT%H:%M:%S" "$l" +%s 2>/dev/null); echo $(( $(date +%s) - ${t:-0} )); }
@@ -25,7 +25,9 @@ hide_others(){ osascript -e 'tell application "System Events" to tell process "j
   pgrep -xq "System Information" && { osascript -e 'quit app "System Information"' >/dev/null 2>&1; log "closed About This Mac"; }; }
 unhide(){ pkill -INT -f "avfoundation" 2>/dev/null; while read -r p; do [ -n "$p" ] && osascript -e "tell application \"System Events\" to set visible of process \"$p\" to true" >/dev/null 2>&1; done < $RUN/hidden 2>/dev/null; : > $RUN/hidden; }
 cleanup_apps(){ for a in Spotify Music; do pgrep -xq "$a" && osascript -e "tell application \"$a\" to pause" >/dev/null 2>&1; done
-  for a in Calculator Spotify Music; do grep -qx "$a" $RUN/pre_apps 2>/dev/null && continue; pgrep -xq "$a" && { osascript -e "tell application \"$a\" to quit" >/dev/null 2>&1; log "quit $a (demo launched it)"; }; done; return 0; }
+  for a in Calculator Spotify Music Chess "System Settings"; do grep -qx "$a" $RUN/pre_apps 2>/dev/null && continue; pgrep -xq "$a" && { osascript -e "tell application \"$a\" to quit" >/dev/null 2>&1; log "quit $a (demo launched it)"; }; done
+  # the dark-mode scene changes appearance; graphite records in light mode with the default accent, so put it back
+  osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to false' >/dev/null 2>&1; defaults delete -g AppleAccentColor >/dev/null 2>&1; return 0; }
 # a system banner (top right, owner NotificationCenter) stays in frame for the whole take; hover it and press its close button
 dismiss_banners(){ local W=$(ptw) b; for try in 1 2; do
     b=$(osascript -l JavaScript "$DIR/winlist.js" 2>/dev/null | awk -F' [|] ' -v w="$W" '$1 ~ /Notification ?Center/ {split($4,a,/[ ,x]/); if (a[1] > w-500 && a[2] < 200 && a[3] >= 300) {print a[1], a[2], a[3], a[4]; exit}}')

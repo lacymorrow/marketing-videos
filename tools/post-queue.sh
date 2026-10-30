@@ -1,6 +1,7 @@
 #!/bin/bash
 # post-queue.sh: post queued X posts on their day, from the existing 10-minute sweep on zero.
 # Queue: tools/post-queue.tsv, tab-separated: <YYYY-MM-DD> <account> <clip|-> <community_id|-> <text>
+# clip: a bench clip name (public/takes/asks/juno-<clip>.mp4) or a path under the repo (out/juno-ads/juno-ad-teammate-16x9.mp4).
 # A due line posts once in the first tick at or after 09:00 local via x-post.sh, is recorded in
 # ~/.paperclip/logs/post-queue.done (keyed by date+account+clip+community) and DMs Lacy on Slack.
 # A failed post is recorded and never retried: fix it and run x-post.sh by hand.
@@ -20,7 +21,7 @@ while IFS=$'\t' read -r day acct clip comm text; do
   grep -qF "	$key	" "$DONE" && continue
   if [ -n "$DRY" ]; then echo "dry-run: would post [$key] $text"; continue; fi
   args=(-u "$acct" -t "$text")
-  [ "$clip" != "-" ] && args+=(-m "$CLIPS/juno-$clip.mp4")
+  if [ "$clip" != "-" ]; then case "$clip" in */*) media="$HOME/repo/marketing-videos/$clip";; *) media="$CLIPS/juno-$clip.mp4";; esac; args+=(-m "$media"); fi
   [ "$comm" != "-" ] && args+=(-c "$comm")
   out="$("$T/x-post.sh" "${args[@]}" 2>&1)"; rc=$?
   url="$(printf '%s' "$out" | grep -o 'https://x.com/[^ ]*' | tail -1)"

@@ -22,7 +22,7 @@ Rule: every demo is a job the model cannot do by answering. One job per ad. Spok
 | Spoken line | On screen | Why Juno wins |
 |---|---|---|
 | "Find something groovy to listen to." (already a rig scene) | Music opens, a track plays | Voice to playback, no menu diving. |
-| "Open Chess. I'll play white. Knight to f3." | Chess app, pieces move as you call them | Pure fun, and it proves click precision on a dense board. |
+| "Open Chess and play me. You are white, you go first." | Chess app opens, Juno makes the first move, you call yours back | Pure fun, and it proves click precision on a dense board. |
 | "Set my wallpaper to the best photo from last weekend." | Photos browsed, Settings changed, desktop changes | Taste plus system control in one line. |
 | "Find the cheapest flight to Denver next Friday and leave the tab open." | Browser search, result tab left open | Does the boring part, leaves you the decision. |
 | "Make a playlist from the songs in this folder." | Finder to Music, playlist built | Files to app, a job with zero shortcuts today. |
