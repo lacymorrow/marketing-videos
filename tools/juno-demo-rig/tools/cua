@@ -1,0 +1,10 @@
+#!/bin/bash
+# Your hands and eyes: `cua screenshot` saves an image of the main display in point coordinates (coordinates map 1:1 to clicks); every other
+# subcommand is passed to juno-cua (click --x --y, type-text --text, press-key --key [--modifier], scroll, mouse-move, ui-tree, open-app).
+. "$(dirname "$0")/../lib.sh"; guard
+[ "$DRY" = 1 ] && { log "DRY cua: $*"; echo '{"dry":true}'; exit 0; }
+if [ "$1" = screenshot ]; then f=$CACHE/shots/cua-$(date +%H%M%S).png; W=$(ptw); screencapture -x -D 1 "$f" && sips -Z "$W" "$f" >/dev/null 2>&1
+  H=$(sips -g pixelHeight "$f" 2>/dev/null | awk '/pixelHeight/{print $2}'); echo "SCREENSHOT: $f  (${W}x${H}, same coordinates you click at)"; exit 0; fi
+case "$1" in click|type-text|press-key|scroll|mouse-move|open-app|hold-key|release-key) ;; ui-tree|find-elements|focused-element|cursor-position|wait) ;; *) echo "not allowed here: $1"; exit 2;; esac
+[ "$1" = open-app ] && case "$*" in *Finder*|*Calculator*|*Spotify*|*Music*|*Juno*) ;; *) echo "you may only open Finder, Calculator, Spotify or Music yourself; ask Juno for anything else"; exit 2;; esac
+log "cua: $*"; juno-cua "$@" 2>&1 | head -c 4000; echo; settle

@@ -1,0 +1,201 @@
+{
+  "_about": "Competitor-mirror ads for Juno. Each ad takes one claim a competitor is paying to run (docs/competitor-ads-2026-10-29.md) and answers it with real footage of Juno doing the thing. Rendered by src/templates/JunoAd.tsx. Times are seconds inside the clip in public/juno-ads/. status: ready = footage exists; planned = needs a take from the rig (scene brief in `scene`). camera: keyframes [clipSec, cx, cy, zoom] with cx, cy as fractions of the clip frame; the view eases to each keyframe over 0.8 s, Screen Studio style. Positioning (Lacy, 2026-10-30): paraphrase the competitor slogan head-on and speak as a peer with the same confidence. Say \"your computer\", not \"your Mac\": Windows is coming. Never claim laptop-closed or a cloud computer.",
+  "brand": {
+    "name": "Juno",
+    "site": "junebug.ai",
+    "cta": "Free download",
+    "icon": "juno-ads/juno-icon.png"
+  },
+  "clips": {
+    "folder": {
+      "file": "juno-ads/clip-folder.mp4",
+      "source": "public/takes/graphite/voice-folder2/juno-voice-folder-20261029-0755.mov, 47 s to 72 s, cropped 3520x1980 at (32,260)",
+      "spoken": "Hi Juno, open the folder on my Desktop whose name is just the at symbol.",
+      "spokenAt": 4,
+      "resultAt": 15,
+      "segments": [
+        [
+          0,
+          7,
+          1
+        ],
+        [
+          7,
+          14,
+          3.5
+        ],
+        [
+          14,
+          21.5,
+          1
+        ]
+      ],
+      "poster": "juno-ads/clip-folder-f0.png",
+      "camera": [
+        [
+          0,
+          0.5,
+          0.4,
+          2.2
+        ],
+        [
+          14.3,
+          0.5,
+          0.31,
+          1.7
+        ]
+      ]
+    },
+    "calc": {
+      "file": "juno-ads/clip-calc.mp4",
+      "source": "public/takes/graphite/voice-calc3/juno-voice-calc-20261029-1133.mov, 46 s to 72 s, cropped 3456x1944 at (64,296) to clear the notification banner; starts at clip 7.5 s because 2 to 7 s shows a macOS Pasting from Zero clipboard dialog",
+      "spoken": "Hi Juno, can you open the Calculator and multiply 64 by 64?",
+      "spokenAt": 7.5,
+      "resultAt": 21,
+      "segments": [
+        [
+          7.5,
+          11,
+          1
+        ],
+        [
+          11,
+          20,
+          3
+        ],
+        [
+          20,
+          25.5,
+          1
+        ]
+      ],
+      "poster": "juno-ads/clip-calc-f0.png",
+      "camera": [
+        [
+          0,
+          0.5,
+          0.4,
+          2.3
+        ],
+        [
+          20.2,
+          0.42,
+          0.58,
+          1.8
+        ]
+      ]
+    }
+  },
+  "ads": [
+    {
+      "id": "your-computer",
+      "status": "ready",
+      "mirrors": "Grok Bot: Grok Bot works on its own computer, not yours.",
+      "headline": [
+        "Works on your computer.",
+        "Not someone else's."
+      ],
+      "clip": "folder",
+      "subline": "Runs on your computer. Inside your apps. With your logins."
+    },
+    {
+      "id": "make-juno-do-it",
+      "status": "ready",
+      "mirrors": "Meta Muse: Make Muse do it. / Muse gets things done.",
+      "headline": [
+        "Make Juno do it."
+      ],
+      "clip": "calc",
+      "subline": "Say it out loud. It gets done, on your computer."
+    },
+    {
+      "id": "hand-it-off",
+      "status": "ready",
+      "mirrors": "OpenAI dots: What would you hand off first?",
+      "headline": [
+        "What would you",
+        "hand off first?"
+      ],
+      "clip": "folder",
+      "subline": "An agent on your computer. Not on a cloud computer."
+    },
+    {
+      "id": "every-morning",
+      "status": "planned",
+      "mirrors": "Meta Muse: Muse works in the background. / Grok Bot (Karen X): a bot that runs an hour before you wake.",
+      "headline": [
+        "Every morning,",
+        "before you sit down."
+      ],
+      "clip": "schedule",
+      "scene": "Typed or spoken: Hi Juno, every weekday at 8 check my calendar and put today's meetings in a note on the Desktop. Show the scheduled automation being created, then the note. Staged calendar only.",
+      "subline": "Juno runs scheduled jobs on your computer. Nothing leaves it but the model call."
+    },
+    {
+      "id": "replying",
+      "status": "planned",
+      "mirrors": "Meta Muse: Muse makes sure you don't miss messages. / Muse makes replying easy.",
+      "headline": [
+        "Reply without",
+        "opening the app."
+      ],
+      "clip": "reply",
+      "scene": "Spoken: Hi Juno, reply to the last message from the staged contact saying I will be there at 7. Staged Messages account only; frames checked for real names.",
+      "subline": "Juno types in your real Messages, with your real contacts."
+    },
+    {
+      "id": "receipts",
+      "status": "planned",
+      "mirrors": "Meta Muse: Crunch numbers in your sleep. / Let Muse manage your receipts.",
+      "headline": [
+        "Receipts, sorted."
+      ],
+      "clip": "receipts",
+      "scene": "Spoken: Hi Juno, put the PDFs in the at folder into a Receipts folder and add up the totals in Numbers. Staged folder already holds Headphones receipt.pdf and Kitchen remodel quote.pdf; add two more staged receipts first.",
+      "subline": "Juno reads your files and does the sorting. On your computer."
+    },
+    {
+      "id": "teammate",
+      "status": "ready",
+      "mirrors": "Grok Bot: Your AI teammate. / AI teammates that finish the work.",
+      "headline": [
+        "The teammate that",
+        "finishes the work."
+      ],
+      "clip": "calc",
+      "subline": "On your computer. Where you can watch it."
+    },
+    {
+      "id": "gets-things-done",
+      "status": "ready",
+      "mirrors": "Meta Muse: Muse gets things done.",
+      "headline": [
+        "Juno gets things done."
+      ],
+      "clip": "folder",
+      "subline": "Free. On the computer you already have."
+    },
+    {
+      "id": "hand-your-work",
+      "status": "ready",
+      "mirrors": "Grok Bot: Hand your work to Grok Bot.",
+      "headline": [
+        "Hand your work to Juno."
+      ],
+      "clip": "calc",
+      "subline": "Say it out loud. Watch it happen."
+    },
+    {
+      "id": "always-on",
+      "status": "planned",
+      "mirrors": "OpenAI dots: always-on agents built to handle everything. / Meta Muse (Zuckerberg): works 24/7 to get things done for you.",
+      "headline": [
+        "Always on.",
+        "Built to handle your work."
+      ],
+      "clip": "schedule",
+      "scene": "Same take as every-morning: a scheduled job created by voice, then the result appearing later. Needs the rig.",
+      "subline": "Runs scheduled jobs on your computer. Checks in when it matters."
+    }
+  ]
+}

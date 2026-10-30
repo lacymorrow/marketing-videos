@@ -1,3 +1,4 @@
+import React from "react";
 import { Composition } from "remotion";
 import { ProductLaunch } from "./templates/ProductLaunch";
 import { FeatureShowcase } from "./templates/FeatureShowcase";
@@ -9,6 +10,7 @@ import { LacyFlowField } from "./templates/LacyFlowField";
 import { LacySvgMorph } from "./templates/LacySvgMorph";
 import { CrossOverPromo } from "./templates/CrossOverPromo";
 import { JunoDemo, type CaptionCue } from "./templates/JunoDemo";
+import { JunoAd, ads, adDurationFrames, FPS as adFps } from "./templates/JunoAd";
 import { palettes, brands, typography } from "./lib/brand";
 import { KeepsakeGraphics } from "./channel/keepsake";
 import { ShipxGraphics } from "./channel/shipx";
@@ -424,6 +426,13 @@ export const RemotionRoot: React.FC = () => {
           accentColor: palettes.devtools.accent,
         }}
       />
+      {/* ─── Juno competitor-mirror ads (docs/juno-ads-campaign.json) ─── */}
+      {ads.filter((ad) => ad.status === "ready").map((ad) => (
+        <React.Fragment key={ad.id}>
+          <Composition id={`JunoAd-${ad.id}-16x9`} component={JunoAd} durationInFrames={adDurationFrames(ad)} fps={adFps} width={1920} height={1080} defaultProps={{ ad }} />
+          <Composition id={`JunoAd-${ad.id}-9x16`} component={JunoAd} durationInFrames={adDurationFrames(ad)} fps={adFps} width={1080} height={1920} defaultProps={{ ad }} />
+        </React.Fragment>
+      ))}
       {/* ─── Channel graphics (YouTube build videos) ─────────────── */}
       <KeepsakeGraphics />
       <ShipxGraphics />

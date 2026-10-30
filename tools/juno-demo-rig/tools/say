@@ -1,0 +1,14 @@
+#!/bin/bash
+# Speak one line out loud in your own voice. Usage: say "line". In spoken scenes it holds Juno's talk key (Right Option) for you and speaks the line into her microphone.
+. "$(dirname "$0")/../lib.sh"; guard
+LINE="$*"; [ -z "$LINE" ] && { echo "say needs a line"; exit 2; }
+wav=$(speak_file "$LINE"); [ "$DRY" = 1 ] && { log "DRY say: $LINE"; echo "said: $LINE"; exit 0; }
+if [ "$SPEAK" = 1 ]; then
+  # Juno listens while her talk key is held (agent trigger RightOption, gesture hold); the pill's mouse path leaves sessions open, so the key is the reliable way in
+  osascript -l JavaScript "$DIR/holdkey.js" down >/dev/null; mark; sleep 1.0
+  # output-only playback through CoreAudio (no microphone permission prompt), resampled to the 48 kHz stereo stream Juno opens on BlackHole
+  idx=$(system_profiler SPAudioDataType 2>/dev/null | grep -E "^ {8}[A-Za-z]" | sed "s/^ *//; s/:$//" | grep -n "BlackHole 2ch" | cut -d: -f1)
+  [ -n "$idx" ] && ffmpeg -hide_banner -loglevel error -i "$wav" -ar 48000 -ac 2 -f audiotoolbox -audio_device_index $((idx-1)) - || "$KOKORO/.venv/bin/python" -I "$DIR/kokoro/play.py" "$wav" "BlackHole 2ch"
+  sleep 0.8; osascript -l JavaScript "$DIR/holdkey.js" up >/dev/null; mark
+else afplay "$wav"; fi; settle
+log "said: $LINE"; echo "said: $LINE"

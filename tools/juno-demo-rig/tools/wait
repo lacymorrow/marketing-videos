@@ -1,0 +1,11 @@
+#!/bin/bash
+# Wait for Juno to finish answering and speaking. Prints what she said.
+. "$(dirname "$0")/../lib.sh"
+[ "$DRY" = 1 ] && { echo "JUNO SAID ALOUD: (dry run) Seven files in there."; echo "JUNO'S ANSWER:"; last_answer; exit 0; }
+for i in $(seq 1 150); do sleep 1; allow_tcc; newlog | grep -qE "Agent run complete|Agent execution finished|Agent execution completed" && break; done
+mark   # Juno just finished; whatever input her run produced was hers
+# only wait for speech if Juno actually queued some (TTS may be off)
+sleep 3; if newlog | grep -q "Queueing TTS"; then for i in $(seq 1 40); do newlog | grep -q "Speech queue drained" && break; sleep 1; done; fi; sleep 1
+echo "JUNO SAID ALOUD: $(newlog | grep -o "Queueing TTS content: .*" | cut -c22- | tr -d "'" | tr '\n' ' ')"
+echo "JUNO'S ANSWER:"; last_answer
+echo "FRONT APP: $(osascript -e 'tell application "System Events" to get name of first process whose frontmost is true' 2>/dev/null)"

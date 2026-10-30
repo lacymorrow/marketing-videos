@@ -1,0 +1,6 @@
+#!/bin/bash
+# Tell Lacy something needs a human (a permission prompt, Juno not visible): a Slack DM from the rig itself. Nothing on zero is involved.
+. "$(dirname "$0")/../lib.sh"
+MSG="$*"; [ -z "$MSG" ] && exit 2; h=$(printf %s "$MSG" | md5 -q); [ -f $RUN/notified-$h ] && exit 0; touch $RUN/notified-$h
+log "ATTENTION: $MSG"
+[ -x ~/.openclaw/scripts/slack-post.sh ] && ~/.openclaw/scripts/slack-post.sh -c U3XC80UUQ -m "Juno rig on $(hostname -s): $MSG" >/dev/null 2>&1 || true

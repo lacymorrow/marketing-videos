@@ -1,0 +1,3 @@
+#!/bin/bash
+# End the scene. Usage: end "one line on how it went"
+. "$(dirname "$0")/../lib.sh"; log "director ended the scene: $*"; echo "$*" > $RUN/ended; echo "scene ended"
