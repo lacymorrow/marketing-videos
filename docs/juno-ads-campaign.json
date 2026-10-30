@@ -1,5 +1,5 @@
 {
-  "_about": "Competitor-mirror ads for Juno. Each ad takes one claim a competitor is paying to run (docs/competitor-ads-2026-10-29.md) and answers it with real footage of Juno doing the thing. Rendered by src/templates/JunoAd.tsx. Times are seconds inside the clip in public/juno-ads/. status: ready = footage exists; planned = needs a take from the rig (scene brief in `scene`). camera: keyframes [clipSec, cx, cy, zoom] with cx, cy as fractions of the clip frame; the view eases to each keyframe over 0.8 s, Screen Studio style. Positioning (Lacy, 2026-10-30): paraphrase the competitor slogan head-on and speak as a peer with the same confidence. Say \"your computer\", not \"your Mac\": Windows is coming. Never claim laptop-closed or a cloud computer.",
+  "_about": "Competitor-mirror ads for Juno. Each ad takes one claim a competitor is paying to run (docs/competitor-ads-2026-10-29.md) and answers it with real footage of Juno doing the thing. Rendered by src/templates/JunoAd.tsx. Times are seconds inside the clip in public/juno-ads/. status: ready = footage exists; planned = needs a take from the rig (scene brief in `scene`). camera: keyframes [clipSec, cx, cy, zoom] with cx, cy as fractions of the clip frame; the view eases to each keyframe over 0.8 s, Screen Studio style. Positioning (Lacy, 2026-10-30): paraphrase the competitor slogan head-on and speak as a peer with the same confidence. Say \"your computer\", not \"your Mac\": Windows is coming. Never claim laptop-closed or a cloud computer. Footage rule (Lacy, 2026-10-30): no calculator demos. Show jobs the model cannot do by answering: files, apps, messages, scheduled work.",
   "brand": {
     "name": "Juno",
     "site": "junebug.ai",
@@ -83,7 +83,8 @@
           0.58,
           1.8
         ]
-      ]
+      ],
+      "retired": "Lacy 2026-10-30: asking an assistant to open Calculator is silly when it can just answer. Do not use in new ads; make-juno-do-it already went out with it."
     }
   },
   "ads": [
@@ -151,7 +152,7 @@
         "The teammate that",
         "finishes the work."
       ],
-      "clip": "calc",
+      "clip": "folder",
       "subline": "On your computer. Where you can watch it."
     },
     {
@@ -171,7 +172,7 @@
       "headline": [
         "Hand your work to Juno."
       ],
-      "clip": "calc",
+      "clip": "folder",
       "subline": "Say it out loud. Watch it happen."
     },
     {

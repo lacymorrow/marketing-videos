@@ -55,3 +55,6 @@ Articles are behind X login; summaries above from the public card.
 
 ## Positioning rule (Lacy, 2026-10-30)
 Paraphrase the competitor slogan head-on and speak as a peer with the same confidence, as if Juno had the same ad spend. "Always-on agents built to handle everything" becomes "Always on. Built to handle your work." Say "your computer", not "your Mac": Windows is coming, so no platform-specific lines in headlines, sublines or CTA ("Free download"). The honest gaps above still hold: never claim laptop-closed or a cloud computer. Mapping lives in docs/juno-ads-campaign.json (`mirrors` field).
+
+## Footage rule (Lacy, 2026-10-30)
+No calculator demos. Asking an assistant to open Calculator is silly when it can answer directly. Every ad shows a job the model cannot do by answering: moving files, working inside an app, sending a message, a scheduled job. The calc clip is retired; make-juno-do-it already went out with it and stays as posted.
