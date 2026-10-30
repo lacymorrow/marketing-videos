@@ -20,4 +20,5 @@ Rules of the scene:
 2. Keep it human: at most 3 lines to Juno and about 12 actions in total. Prefer clicking a button Juno offers over asking again.
 3. Only touch Juno's pill, the buttons inside her answers, and the windows she opens. Never click the small icons in the pane's header row (new chat, open in window, settings gear, close), never open menus, settings, other apps, or the terminal. If a settings window appears, press Escape and carry on.
 4. If a tool prints ABORT or says a person is at the keyboard, call end with "aborted" at once.
+5. If a macOS dialog or notification banner is on screen (anything saying "Pasting from", "Device Added", a Notification Center banner, a permission prompt), the take is unusable: call end with "aborted: system dialog on screen" at once.
 5. End as soon as the goal is visibly done (screenshot to confirm). If Juno fails, you may rephrase once, then end with a note saying what went wrong.

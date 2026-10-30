@@ -144,17 +144,6 @@
       "subline": "Juno types in your real Messages, with your real contacts."
     },
     {
-      "id": "receipts",
-      "status": "planned",
-      "mirrors": "Meta Muse: Crunch numbers in your sleep. / Let Muse manage your receipts.",
-      "headline": [
-        "Receipts, sorted."
-      ],
-      "clip": "receipts",
-      "scene": "Spoken: Hi Juno, put the PDFs in the at folder into a Receipts folder and add up the totals in Numbers. Staged folder already holds Headphones receipt.pdf and Kitchen remodel quote.pdf; add two more staged receipts first.",
-      "subline": "Juno reads your files and does the sorting. On your computer."
-    },
-    {
       "id": "teammate",
       "status": "ready",
       "mirrors": "Grok Bot: Your AI teammate. / AI teammates that finish the work.",

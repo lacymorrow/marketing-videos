@@ -35,7 +35,7 @@ screen_check(){ local bad=""; osascript -l JavaScript "$DIR/winlist.js" | awk -F
   [ -s $RUN/stray ] && bad="unexpected window on screen: $(tr '\n' ' ' < $RUN/stray)"
   local FW=$(osascript -e 'tell application "Finder" to get POSIX path of (target of every Finder window as alias list)' 2>/dev/null | tr ',' '\n' | sed 's/^ *//' | grep .)
   [ -n "$FW" ] && log "finder windows: $(echo "$FW" | tr '\n' ' ')"
-  local f; for f in $FW; do case "$f" in /Users/lacy/Desktop/@/) ;; *) bad="Finder shows $f";; esac; done
+  local f; for f in $FW; do case "$f" in /Users/lacy/Desktop/@/|/Users/lacy/Desktop/@/*) ;; *) bad="Finder shows $f";; esac; done
   echo "$bad"; }
 run_scene(){ local NAME=$1 BRIEF=$2; local ST="$OUT/states-$NAME"; mkdir -p "$ST"; rm -f $RUN/abort $RUN/ended; mark; local L0=$(wc -l < $LOG); wc -l < "$(jlog)" > $RUN/n0   # the wait tool reads Juno's log from here, so earlier scenes never bleed in
   local TAKE="$OUT/juno-$NAME-$(date +%Y%m%d-%H%M).mov"; apps > $RUN/pre_apps
