@@ -14,9 +14,25 @@ while [ $# -gt 0 ]; do case "$1" in
 X=(xurl --app lacybuilds -u "$USER_" --auth oauth2)
 MID=""
 if [ -n "$MEDIA" ]; then
-  MID="$("${X[@]}" media upload "$MEDIA" | grep -o '"id": *"[0-9]*"' | head -1 | grep -o '[0-9]*')"
-  [ -n "$MID" ] || { echo "media upload failed" >&2; exit 1; }
-  for _ in $(seq 1 45); do "${X[@]}" media status "$MID" | grep -q '"state": *"succeeded"' && break; sleep 2; done
+  # xurl defaults to amplify_video + video/mp4; an image sent that way fails processing.
+  case "$(printf '%s' "${MEDIA##*.}" | tr '[:upper:]' '[:lower:]')" in
+    jpg|jpeg) KIND=(--category tweet_image --media-type image/jpeg);;
+    png)      KIND=(--category tweet_image --media-type image/png);;
+    gif)      KIND=(--category tweet_gif --media-type image/gif);;
+    *)        KIND=(--category amplify_video --media-type video/mp4);;
+  esac
+  MID="$("${X[@]}" media upload "${KIND[@]}" "$MEDIA" | grep -o '"id": *"[0-9]*"' | head -1 | grep -o '[0-9]*' || true)"
+  [ -n "$MID" ] || { echo "media upload failed: $MEDIA" >&2; exit 1; }
+  if [ "${KIND[1]}" != tweet_image ]; then
+    ok=""
+    for _ in $(seq 1 45); do
+      st="$("${X[@]}" media status "$MID" 2>&1 || true)"
+      printf '%s' "$st" | grep -q '"state": *"succeeded"' && { ok=1; break; }
+      printf '%s' "$st" | grep -q '"state": *"failed"' && break
+      sleep 2
+    done
+    [ -n "$ok" ] || { echo "media processing failed: $MEDIA" >&2; exit 1; }
+  fi
 fi
 BODY="$(TEXT="$TEXT" MID="$MID" COMMUNITY="$COMMUNITY" QUOTE="$QUOTE" REPLY="$REPLY" python3 -c '
 import json,os
