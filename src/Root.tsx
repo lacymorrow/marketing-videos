@@ -14,6 +14,7 @@ import { JunoAd, ads, adDurationFrames, FPS as adFps } from "./templates/JunoAd"
 import { palettes, brands, typography } from "./lib/brand";
 import { KeepsakeGraphics } from "./channel/keepsake";
 import { ShipxGraphics } from "./channel/shipx";
+import { DocClipsRoot } from "./docs-clips";
 
 // ─── Lacy Shell ──────────────────────────────────────────────────
 const lacy = brands.lacy;
@@ -436,6 +437,8 @@ export const RemotionRoot: React.FC = () => {
       {/* ─── Channel graphics (YouTube build videos) ─────────────── */}
       <KeepsakeGraphics />
       <ShipxGraphics />
+      {/* ─── Juno docs clips (docs-clips/) ───────────────────────── */}
+      <DocClipsRoot />
     </>
   );
 };

@@ -1,0 +1,21 @@
+{
+  "slug": "sample-talk-key",
+  "title": "Change the talk key",
+  "chapter": 3,
+  "video": "raw.mp4",
+  "screen": { "width": 1536, "height": 960 },
+  "duration": 8.0,
+  "events": [
+    { "t": 1.0, "type": "keydown", "key": "fn" },
+    { "t": 1.1, "type": "speech", "text": "Open Calculator", "duration": 1.4 },
+    { "t": 2.6, "type": "keyup", "key": "fn" },
+    { "t": 3.0, "type": "focus", "x": 218, "y": 268, "w": 264, "h": 44, "label": "Shortcuts", "duration": 2.0 },
+    { "t": 3.6, "type": "click", "x": 330, "y": 292, "button": "left" },
+    { "t": 5.6, "type": "keydown", "key": "esc" },
+    { "t": 5.72, "type": "keyup", "key": "esc" },
+    { "t": 6.4, "type": "click", "x": 1200, "y": 700, "button": "right" },
+    { "t": 0.0, "type": "caption", "text": "Hold fn and speak.", "duration": 2.8 },
+    { "t": 3.0, "type": "caption", "text": "Pick Shortcuts to change the key.", "duration": 3.0 },
+    { "t": 6.2, "type": "caption", "text": "Tap Esc to cancel.", "duration": 1.6 }
+  ]
+}
