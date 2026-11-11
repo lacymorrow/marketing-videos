@@ -43,6 +43,7 @@ restore_juno() {
 begin() { # begin <slug> <title> [chapter]
   SLUG=$1; TITLE=$2; CHAPTER=${3:-0}
   CLIP=$OUT/$SLUG; rm -rf "$CLIP"; mkdir -p "$CLIP"; : > "$CLIP/events.jsonl"
+  if [ -n "${DRY:-}" ]; then now > "$CLIP/raw.mov.t0"; REC_PID=; return 0; fi  # DRY=1: steps only, no recording
   "$BIN/rec" "$CLIP/raw.mov" > "$CLIP/rec.log" 2>&1 &
   REC_PID=$!
   for _ in $(seq 1 40); do [ -s "$CLIP/raw.mov.t0" ] && break; sleep 0.25; done
@@ -51,20 +52,21 @@ begin() { # begin <slug> <title> [chapter]
 }
 end_clip() {
   sleep 0.8
+  if [ -n "${DRY:-}" ]; then echo "dry run: $CLIP/events.jsonl"; return 0; fi
   kill -INT "$REC_PID"; wait "$REC_PID" || true
   python3 "$RIG/finalize.py" "$CLIP" "$SLUG" "$TITLE" "$CHAPTER"
   echo "clip: $CLIP"
 }
 
 # --- actions (each one logs what a viewer should see) ----------------------
-hold_fn() { # hold_fn <ms> [ctrl]  (talk, or dictate with ctrl)
-  local ms=$1 extra=${2:-}
-  ev keydown '"key":"fn"'; [ "$extra" = ctrl ] && ev keydown '"key":"ctrl"'
-  "$BIN/fnkey" hold "$ms" $extra
-  [ "$extra" = ctrl ] && ev keyup '"key":"ctrl"'; ev keyup '"key":"fn"'
+hold_keys() { # hold_keys <ms> <key>... (fn, ctrl, ropt, opt, cmd, shift)
+  local ms=$1; shift
+  for k in "$@"; do ev keydown "\"key\":\"$k\""; done
+  "$BIN/modkey" hold "$ms" "$@"
+  for k in "$@"; do ev keyup "\"key\":\"$k\""; done
 }
-fn_down() { ev keydown '"key":"fn"'; "$BIN/fnkey" down; }
-fn_up()   { "$BIN/fnkey" up; ev keyup '"key":"fn"'; }
+keys_down() { for k in "$@"; do ev keydown "\"key\":\"$k\""; done; "$BIN/modkey" down "$@"; }
+keys_up()   { "$BIN/modkey" up "$@"; for k in "$@"; do ev keyup "\"key\":\"$k\""; done; }
 say_line() { # say_line "<text>": spoken into BlackHole, which Juno listens on
   local text=$1 t0 t1
   t0=$(now); say -a "BlackHole 2ch" "$text"; t1=$(now)
@@ -103,6 +105,5 @@ caption() { # caption "<text>" <seconds>  (films only)
 pause() { sleep "$1"; }
 
 # AX lookup: prints "x y w h" of the first element whose title/label/value matches.
-locate() { # locate <app> <text>
-  osascript "$RIG/axfind.applescript" "$1" "$2"
-}
+locate() { python3 "$RIG/locate.py" "$@"; }   # locate <app> <text> -> "x y w h"
+center() { python3 -c "import sys;x,y,w,h=map(int,sys.argv[1:5]);print(x+w//2, y+h//2)" $1 $2 $3 $4; }
