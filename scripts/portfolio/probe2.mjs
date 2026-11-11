@@ -1,0 +1,10 @@
+import { chromium } from '/opt/homebrew/lib/node_modules/@playwright/cli/node_modules/playwright-core/index.mjs';
+import fs from 'fs';
+const [u] = process.argv.slice(2);
+const b = await chromium.launch({ executablePath: fs.readFileSync('chrome-path.txt','utf8').trim() });
+const p = await b.newPage({ viewport: { width: 1920, height: 1080 } });
+await p.goto(u, { waitUntil: 'networkidle' });
+const els = await p.$$eval('button, input, a[role=button], [role=tab], label, select', es => es.map(e => `${e.tagName} ${e.type||''} "${(e.innerText||e.getAttribute('aria-label')||e.placeholder||'').trim().slice(0,40)}"`).slice(0,40));
+console.log(els.join('\n'));
+console.log((await p.innerText('body')).slice(0,900));
+await b.close();
