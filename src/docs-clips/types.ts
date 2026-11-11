@@ -5,7 +5,7 @@ export type DocEvent =
   | { t: number; type: "keydown" | "keyup"; key: KeyId }
   | { t: number; type: "speech"; text: string; duration: number }
   | { t: number; type: "click"; x: number; y: number; button: MouseButton }
-  | { t: number; type: "focus"; x: number; y: number; w: number; h: number; label?: string; duration: number }
+  | { t: number; type: "focus"; x: number; y: number; w: number; h: number; label?: string; chip?: boolean; duration: number }
   | { t: number; type: "caption"; text: string; duration: number };
 
 export interface DocClipData {

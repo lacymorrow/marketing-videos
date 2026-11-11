@@ -5,7 +5,7 @@ import { MouseButton } from "./types";
 import { C, SANS } from "./theme";
 
 type Click = { t: number; x: number; y: number; button: MouseButton };
-type Focus = { t: number; x: number; y: number; w: number; h: number; label?: string; duration: number };
+type Focus = { t: number; x: number; y: number; w: number; h: number; label?: string; chip?: boolean; duration: number };
 
 const MouseGlyph: React.FC<{ button: MouseButton }> = ({ button }) => {
   const lit = C.accent;
@@ -62,17 +62,21 @@ export const FocusMark: React.FC<{ focus: Focus; t: number; L: Layout; z: number
   const a = toPx(L, focus.x, focus.y);
   const pad = 7;
   const x = a.x - pad, y = a.y - pad, w = focus.w * L.scale + pad * 2, h = focus.h * L.scale + pad * 2;
-  const chipAbove = y > 70;
+  // Chip is opt-in. Place it beside the rect: right if it fits, else below.
+  const chipW = ((focus.label ?? "").length * 14 + 28) / z;
+  const chipRight = x + w + 12 + chipW <= L.vx + L.vw;
   return (
     <div style={{ position: "absolute", left: 0, top: 0, opacity }}>
       <div style={{
         position: "absolute", left: x, top: y, width: w, height: h, borderRadius: 12,
         border: `3.5px solid ${C.accent}`, background: C.accentSoft, boxShadow: "0 0 0 6px rgba(10,124,255,0.10)", boxSizing: "border-box",
       }} />
-      {focus.label && (
+      {focus.chip && focus.label && (
         <div style={{
-          position: "absolute", left: x, top: chipAbove ? y - 12 - 40 : y + h + 12, height: 40, lineHeight: "40px", transform: `scale(${1 / z})`,
-          transformOrigin: chipAbove ? "0 100%" : "0 0",
+          position: "absolute",
+          left: chipRight ? x + w + 12 : x,
+          top: chipRight ? y + h / 2 - 20 : y + h + 12,
+          height: 40, lineHeight: "40px", transform: `scale(${1 / z})`, transformOrigin: chipRight ? "0 50%" : "0 0",
           padding: "0 14px", borderRadius: 8, background: C.charcoal, color: C.cream, fontFamily: SANS, fontSize: 24, fontWeight: 600, whiteSpace: "nowrap",
         }}>{focus.label}</div>
       )}

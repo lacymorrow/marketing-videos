@@ -16,7 +16,7 @@ One file per clip, next to the recording: `<slug>/events.json` + `<slug>/raw.mp4
     { "t": 2.80, "type": "keyup",   "key": "fn" },
     { "t": 1.30, "type": "speech",  "text": "Open Calculator", "duration": 1.3 },   // spoken by the user (wake phrase or talk)
     { "t": 3.10, "type": "click",   "x": 412, "y": 300, "button": "left" },         // left | right | middle | button4 | button5
-    { "t": 3.00, "type": "focus",   "x": 380, "y": 280, "w": 260, "h": 44, "label": "Shortcuts", "duration": 1.8 }, // highlight + zoom target
+    { "t": 3.00, "type": "focus",   "x": 380, "y": 280, "w": 260, "h": 44, "label": "Shortcuts", "duration": 1.8, "chip": false }, // highlight + zoom target; chip (default false) adds a label chip beside the rect, only when the label is not already visible text there
     { "t": 0.00, "type": "caption", "text": "Open Settings with Command-Comma.", "duration": 2.0 }                   // films only (VTT + burned-in optional)
   ]
 }

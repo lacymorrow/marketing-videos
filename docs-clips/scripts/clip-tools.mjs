@@ -27,6 +27,9 @@ if (cmd === "props") {
     fs.copyFileSync(path.resolve(dir, name), dst);
     return path.basename(name);
   };
+  // Shared brand asset lives in the repo public dir; the render serves only the stage dir.
+  fs.mkdirSync(path.join(arg, "docs-clips"), { recursive: true });
+  fs.copyFileSync(new URL("../../public/docs-clips/juno-icon.png", import.meta.url), path.join(arg, "docs-clips/juno-icon.png"));
   const props = { data, videoSrc: stage(data.video) };
   if (fs.existsSync(path.join(dir, "voice.m4a"))) props.voiceSrc = stage("voice.m4a");
   else if (fs.existsSync(path.join(dir, "voice.aiff"))) {
