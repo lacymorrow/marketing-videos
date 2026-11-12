@@ -47,7 +47,7 @@ begin() { # begin <slug> <title> [chapter]
   "$BIN/rec" "$CLIP/raw.mov" > "$CLIP/rec.log" 2>&1 &
   REC_PID=$!
   for _ in $(seq 1 40); do [ -s "$CLIP/raw.mov.t0" ] && break; sleep 0.25; done
-  [ -s "$CLIP/raw.mov.t0" ] || { echo "recorder did not start: $(cat "$CLIP/rec.log")" >&2; exit 1; }
+  [ -s "$CLIP/raw.mov.t0" ] || { echo "recorder did not start: $(cat "$CLIP/rec.log" 2>/dev/null)" >&2; exit 1; }
   sleep 0.8   # a still lead-in frame for the poster and the fade
 }
 end_clip() {
