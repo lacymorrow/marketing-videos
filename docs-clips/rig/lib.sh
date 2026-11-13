@@ -40,10 +40,18 @@ restore_juno() {
 }
 
 # --- recording -------------------------------------------------------------
+# The recorder takes the whole display, so every other app is hidden first:
+# a clip must never show someone's tabs, mail or messages. Hidden, not quit,
+# so nothing is lost; Juno and the app a scene opens itself stay visible.
+clear_stage() {
+  osascript -e 'tell application "System Events" to set visible of (every process whose background only is false and name is not "Juno") to false' >/dev/null 2>&1 || true
+  sleep 0.5
+}
 begin() { # begin <slug> <title> [chapter]
   SLUG=$1; TITLE=$2; CHAPTER=${3:-0}
   CLIP=$OUT/$SLUG; rm -rf "$CLIP"; mkdir -p "$CLIP"; : > "$CLIP/events.jsonl"
   if [ -n "${DRY:-}" ]; then now > "$CLIP/raw.mov.t0"; REC_PID=; return 0; fi  # DRY=1: steps only, no recording
+  clear_stage
   "$BIN/rec" "$CLIP/raw.mov" > "$CLIP/rec.log" 2>&1 &
   REC_PID=$!
   for _ in $(seq 1 40); do [ -s "$CLIP/raw.mov.t0" ] && break; sleep 0.25; done
