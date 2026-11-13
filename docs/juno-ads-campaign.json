@@ -307,6 +307,150 @@
       ],
       "clip": "receipts",
       "subline": "It reads your files and files them. On your computer."
+    },
+    {
+      "id": "road-trip",
+      "status": "planned",
+      "mirrors": "Meta Muse: Your trip is in good hands. / Grok Bot (Drewmurphs): four-day California coast road trip.",
+      "headline": [
+        "Plan the whole",
+        "drive. Out loud."
+      ],
+      "clip": "road-trip",
+      "scene": "Spoken: Hi Juno, plan a four day drive up the coast with a stop each night and what each costs. Show the stops and live prices arriving. Public web only; no flight or booking claims.",
+      "subline": "Your computer does the research. In your own browser."
+    },
+    {
+      "id": "subscriptions",
+      "status": "planned",
+      "mirrors": "Meta Muse: keeps track of subscriptions and finds savings with your OK. / Muse creator: saved $2,500.",
+      "headline": [
+        "Every recurring charge.",
+        "One sentence."
+      ],
+      "clip": "subs",
+      "scene": "Spoken: Hi Juno, find my subscriptions in the last 90 days and flag duplicates. Staged mailbox only; frames checked for real names, amounts and card digits. Read only, say so on screen.",
+      "subline": "Juno reads your real mail. Changes nothing."
+    },
+    {
+      "id": "bills-due",
+      "status": "planned",
+      "mirrors": "Grok Bot (UI Adrian): studio admin that ate my mornings. / dots creator ops.",
+      "headline": [
+        "What do I owe,",
+        "and by when?"
+      ],
+      "clip": "bills",
+      "scene": "Spoken: Hi Juno, what bills are overdue or due this week? Staged mailbox only.",
+      "subline": "Juno reads your mail and lists what to pay or chase."
+    },
+    {
+      "id": "who-is-waiting",
+      "status": "planned",
+      "mirrors": "OpenAI dots: run a creator business. / Grok Bot (Owen Nurminen): changed how I run my business.",
+      "headline": [
+        "Who is waiting",
+        "on you?"
+      ],
+      "clip": "waiting",
+      "scene": "Spoken: Hi Juno, who is waiting on a reply from me this month? Staged mailbox only.",
+      "subline": "Juno reads your inbox and ranks who needs you."
+    },
+    {
+      "id": "night-out",
+      "status": "planned",
+      "mirrors": "Meta Muse (Ashley Graham): booked date night.",
+      "headline": [
+        "Dinner for two,",
+        "Saturday at seven."
+      ],
+      "clip": "dinner",
+      "scene": "Spoken: Hi Juno, find a well reviewed place with a table for two Saturday at seven. Show live availability. Do not book on camera unless the booking is tried first.",
+      "subline": "Live availability, not a guess."
+    },
+    {
+      "id": "weekly-review",
+      "status": "planned",
+      "mirrors": "OpenAI dots: weekly business review creator videos.",
+      "headline": [
+        "Your week,",
+        "in one minute."
+      ],
+      "clip": "week",
+      "scene": "Spoken: Hi Juno, recap my week: orders, revenue, what stood out. Staged mailbox only.",
+      "subline": "Read from the mail you already get."
+    },
+    {
+      "id": "rental-search",
+      "status": "planned",
+      "mirrors": "Grok Bot creator: property search.",
+      "headline": [
+        "Three real rentals.",
+        "Still live."
+      ],
+      "clip": "rentals",
+      "scene": "Spoken: Hi Juno, find three two bedroom rentals under my budget. Show listings opening in the browser. Public listings only.",
+      "subline": "In your own browser. No sign-in needed."
+    },
+    {
+      "id": "contract-review",
+      "status": "planned",
+      "mirrors": "OpenAI dots: contract review into Notion creator video.",
+      "headline": [
+        "Read the contract.",
+        "Flag the risks."
+      ],
+      "clip": "contract",
+      "scene": "Spoken: Hi Juno, review this contract and flag the risky clauses. Use a sample contract only. Notion write is untried; do not show it.",
+      "subline": "The file stays on your computer."
+    },
+    {
+      "id": "budget-sheet",
+      "status": "planned",
+      "mirrors": "OpenAI dots: budget trade-offs in a spreadsheet creator video.",
+      "headline": [
+        "What if rent",
+        "goes up $200?"
+      ],
+      "clip": "budget",
+      "scene": "Spoken: Hi Juno, build a budget and show what happens if rent rises 200 dollars. Open the finished file on screen (the trial did not).",
+      "subline": "A real spreadsheet, live formulas."
+    },
+    {
+      "id": "training-plan",
+      "status": "planned",
+      "mirrors": "Meta Muse: plan and check in on your fitness goals. / Signing up for a race?",
+      "headline": [
+        "Racing soon?",
+        "Here is the plan."
+      ],
+      "clip": "plan",
+      "scene": "Spoken: Hi Juno, build me a twelve week half marathon plan. Show the file. Calendar placement is untried; do not claim it.",
+      "subline": "A plan in a file you own."
+    },
+    {
+      "id": "tidy-drives",
+      "status": "planned",
+      "mirrors": "Grok Bot (M. Marcia Art): pile of aging external hard drives.",
+      "headline": [
+        "Clean up the",
+        "old drives."
+      ],
+      "clip": "tidy",
+      "scene": "Spoken: Hi Juno, what in Downloads can I archive? Staged folder only. Proposal only, nothing moved.",
+      "subline": "Juno shows you before it touches anything."
+    },
+    {
+      "id": "small-business-today",
+      "status": "planned",
+      "mirrors": "Meta: Muse for Small Business, AI that hustles for you. / Take the busywork off your plate.",
+      "headline": [
+        "What needs me",
+        "today?"
+      ],
+      "clip": "today",
+      "scene": "Cutdown of every-morning: ranked list from a staged mailbox and calendar. Do not duplicate it; film only if every-morning does not cover it.",
+      "subline": "Ranked by urgency, from your own mail and calendar."
     }
   ]
 }
