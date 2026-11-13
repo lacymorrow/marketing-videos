@@ -14,17 +14,18 @@ while [ $# -gt 0 ]; do case "$1" in
 [ -n "$CH" ] && [ -n "$TEXT" ] || { echo "usage: postiz-post.sh -a channel -t text [-m file]" >&2; exit 2; }
 KEYF="$HOME/.config/postiz/api-key"; [ -s "$KEYF" ] || { echo "no Postiz key at $KEYF" >&2; exit 1; }
 export POSTIZ_API_KEY="$(cat "$KEYF")" POSTIZ_API_URL="${POSTIZ_API_URL:-https://postiz.buildandserve.com/api}"
-ID="$(postiz integrations:list | jq -r --arg c "$CH" '.[] | select((.identifier|ascii_downcase|test($c)) or (.name|ascii_downcase|test($c))) | .id' | head -1)"
+js(){ sed -n '/^[\[{]/,$p'; }  # the CLI prints an emoji header line before the JSON
+ID="$(postiz integrations:list | js | jq -r --arg c "$CH" '.[] | select((.identifier|ascii_downcase|test($c)) or (.name|ascii_downcase|test($c))) | .id' | head -1)"
 [ -n "$ID" ] || { echo "no Postiz channel matches '$CH'" >&2; exit 1; }
 M=()
 if [ -n "$MEDIA" ]; then
   [ -f "$MEDIA" ] || { echo "media missing: $MEDIA" >&2; exit 1; }
-  URL="$(postiz upload "$MEDIA" | jq -r '.path // .url // empty')"
+  URL="$(postiz upload "$MEDIA" | js | jq -r '.path // .url // empty')"
   [ -n "$URL" ] || { echo "media upload failed: $MEDIA" >&2; exit 1; }
   M=(-m "$URL")
 fi
 WHEN="$(date -u -v+2M +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || date -u -d '+2 min' +%Y-%m-%dT%H:%M:%SZ)"
-OUT="$(postiz posts:create -c "$TEXT" "${M[@]}" -s "$WHEN" -i "$ID")"
+OUT="$(postiz posts:create -c "$TEXT" ${M[@]+"${M[@]}"} -s "$WHEN" -i "$ID" | js)"
 PID="$(printf '%s' "$OUT" | jq -r '.. | .id? // empty' 2>/dev/null | head -1)"
 [ -n "$PID" ] || { echo "postiz create gave no id: $OUT" >&2; exit 1; }
 mkdir -p "$HOME/.paperclip/logs"; printf '%s %s postiz:%s | %s\n' "$(date '+%F %T')" "$CH" "$PID" "$TEXT" >> "$HOME/.paperclip/logs/postiz-posts.log"
