@@ -2,7 +2,8 @@
 # post-queue.sh: post queued X posts on their day, from the existing 10-minute sweep on zero.
 #
 # Queue: tools/post-queue.tsv, tab-separated: <YYYY-MM-DD> <account> <media|-> <community_id|-> <text>
-#   account: junebug_ai or lacybuilds (both under xurl --app lacybuilds).
+#   account: junebug_ai or lacybuilds (both under xurl --app lacybuilds), or postiz-<channel> (postiz-linkedin, postiz-youtube,
+#            postiz-facebook) which goes through tools/postiz-post.sh and the self-hosted Postiz.
 #   media:   a bench clip name (public/takes/asks/juno-<name>.mp4), a path under marketing-videos
 #            (out/juno-ads/juno-ad-teammate-16x9.mp4) or an absolute path (/Users/lacy/repo/camfetti-internal/site/screen-grid.png).
 #
@@ -56,6 +57,12 @@ while IFS=$'\t' read -r day acct media comm text; do
     continue
   fi
   if [ -n "$DRY" ]; then echo "dry-run: would post [$key] $text"; continue; fi
+  if [[ "$acct" == postiz-* ]]; then  # postiz-<channel>: LinkedIn, YouTube, Facebook via tools/postiz-post.sh
+    pargs=(-a "${acct#postiz-}" -t "$text")
+    if [ "$media" != "-" ]; then case "$media" in /*) path="$media";; */*) path="$MV/$media";; *) path="$CLIPS/juno-$media.mp4";; esac; pargs+=(-m "$path"); fi
+    out="$("$T/postiz-post.sh" "${pargs[@]}" 2>&1)"; rc=$?
+    url="$(printf '%s' "$out" | grep -o 'postiz:[^ ]*' | tail -1)"
+  else
   args=(-u "$acct" -t "$text")
   if [ "$media" != "-" ]; then
     case "$media" in /*) path="$media";; */*) path="$MV/$media";; *) path="$CLIPS/juno-$media.mp4";; esac
@@ -64,6 +71,7 @@ while IFS=$'\t' read -r day acct media comm text; do
   [ "$comm" != "-" ] && args+=(-c "$comm")
   out="$("$T/x-post.sh" "${args[@]}" 2>&1)"; rc=$?
   url="$(printf '%s' "$out" | grep -o 'https://x.com/[^ ]*' | tail -1)"
+  fi
   if [ $rc -eq 0 ] && [ -n "$url" ]; then
     printf '%s\t%s\t%s\n' "$(date '+%F %T')" "$key" "$url" >> "$DONE"
     digest+=$'\n'"@$acct: $url"
