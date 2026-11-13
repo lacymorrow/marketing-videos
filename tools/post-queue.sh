@@ -7,7 +7,9 @@
 #            (out/juno-ads/juno-ad-teammate-16x9.mp4) or an absolute path (/Users/lacy/repo/camfetti-internal/site/screen-grid.png).
 #
 # Rules:
-#   1. A line posts once, in the first tick at or after 09:00 local on its day, via x-post.sh.
+#   1. A line posts once, in the first tick at or after its time on its day, via x-post.sh. The day column is
+#      YYYY-MM-DD (time 09:00) or YYYY-MM-DD@HH (HH is the local hour, 00-23), so one account can post a few times a day
+#      (LAC-8017, Lacy 2026-11-13). The @HH suffix is part of the dedupe key.
 #   2. A line more than STALE_DAYS old is recorded STALE and skipped, so a stall never dumps a backlog in one tick
 #      (10 posts sat unsent 2026-10-31 to 11-03 because the sweep line was never enabled).
 #   3. Every outcome is one row in ~/.paperclip/logs/post-queue.done (key = date|account|media|community).
@@ -28,6 +30,7 @@ TODAY="${POST_QUEUE_TODAY:-$(date +%F)}"; HOUR="${POST_QUEUE_HOUR:-$(date +%H)}"
 STALE_DAYS=1; MIN_DAYS=5; REFILL_EVERY_DAYS=3
 [ -s "$Q" ] || exit 0
 [ "$HOUR" -ge 9 ] || exit 0
+HOUR10=$((10#$HOUR))
 mkdir -p "$L"; touch "$DONE"
 
 day_add(){ date -j -v"$2"d -f %F "$1" +%F 2>/dev/null || date -d "$1 $2 day" +%F; }
@@ -41,8 +44,10 @@ ticket(){ # ticket <title> <description>; dedupes on a recent open title server-
 digest=""; fails=0
 while IFS=$'\t' read -r day acct media comm text; do
   [ -n "$day" ] && [ -n "$acct" ] && [ -n "$text" ] || continue
+  fday="$day"; day="${fday%%@*}"; hh=9; case "$fday" in *@*) hh=$((10#${fday##*@}));; esac
   [[ "$day" < "$TODAY" || "$day" == "$TODAY" ]] || continue
-  key="$day|$acct|$media|$comm"
+  [[ "$day" == "$TODAY" && "$HOUR10" -lt "$hh" ]] && continue
+  key="$fday|$acct|$media|$comm"
   grep -qF "	$key	" "$DONE" && continue
   if [[ "$day" < "$STALE_BEFORE" ]]; then
     [ -n "$DRY" ] && { echo "dry-run: stale, skip [$key]"; continue; }
@@ -84,7 +89,7 @@ done < "$Q"
 stamp="$L/.post-queue-depth-day"
 if [ -n "$DRY" ] || [ "$(cat "$stamp" 2>/dev/null)" != "$TODAY" ]; then
   [ -z "$DRY" ] && echo "$TODAY" > "$stamp"
-  future="$(awk -F'\t' -v t="$TODAY" '$1 > t && $5 != "" {print $1}' "$Q" | sort -u)"
+  future="$(awk -F'\t' -v t="$TODAY" '{d=$1; sub(/@.*/,"",d)} d > t && $5 != "" {print d}' "$Q" | sort -u)"
   ndays="$(printf '%s\n' "$future" | grep -c . || true)"
   last="$(printf '%s\n' "$future" | tail -1)"
   echo "$(date '+%F %T') depth: $ndays future days queued, last $last"
