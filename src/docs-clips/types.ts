@@ -2,7 +2,7 @@ export type KeyId = string;
 export type MouseButton = "left" | "right" | "middle" | "button4" | "button5";
 
 export type DocEvent =
-  | { t: number; type: "keydown" | "keyup"; key: KeyId }
+  | { t: number; type: "keydown" | "keyup"; key: KeyId; as?: "talk" | "dictation" }
   | { t: number; type: "speech"; text: string; duration: number }
   | { t: number; type: "click"; x: number; y: number; button: MouseButton }
   | { t: number; type: "focus"; x: number; y: number; w: number; h: number; label?: string; chip?: boolean; duration: number }

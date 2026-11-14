@@ -11,22 +11,25 @@ interface Press {
   key: string;
   down: number;
   up: number;
+  /** Set when the keys stand for a rebindable shortcut: draw its name, not the physical keys. */
+  as?: string;
 }
 
 /** Pair keydown/keyup per key. An unmatched keydown is held to `end`. */
 export const pairPresses = (events: DocEvent[], end: number): Press[] => {
-  const open = new Map<string, number>();
+  const open = new Map<string, { down: number; as?: string }>();
   const out: Press[] = [];
   const sorted = [...events].sort((a, b) => a.t - b.t);
   for (const e of sorted) {
     if (e.type === "keydown") {
-      if (!open.has(e.key)) open.set(e.key, e.t);
+      if (!open.has(e.key)) open.set(e.key, { down: e.t, as: e.as });
     } else if (e.type === "keyup" && open.has(e.key)) {
-      out.push({ key: e.key, down: open.get(e.key)!, up: e.t });
+      const o = open.get(e.key)!;
+      out.push({ key: e.key, down: o.down, up: e.t, as: o.as });
       open.delete(e.key);
     }
   }
-  open.forEach((down, key) => out.push({ key, down, up: end }));
+  open.forEach((o, key) => out.push({ key, down: o.down, up: end, as: o.as }));
   return out;
 };
 
@@ -68,10 +71,14 @@ interface Label {
   symbol?: React.ReactNode;
   word?: string;
   wide?: boolean;
+  width?: number;
 }
 
 const labelFor = (key: string): Label => {
   switch (key) {
+    // Shortcuts people rebind are drawn by name, so the clip matches every keyboard.
+    case "role:talk": return { word: "talk key", width: 150 };
+    case "role:dictation": return { word: "dictation key", width: 196 };
     case "fn": return { symbol: <Globe size={26} />, word: "fn" };
     case "ctrl": return { symbol: "⌃", word: "control" };
     case "opt": return { symbol: "⌥", word: "option" };
@@ -91,7 +98,7 @@ const RING_PAD = 6;
 
 const Cap: React.FC<{ press: Press; t: number }> = ({ press, t }) => {
   const label = labelFor(press.key);
-  const w = label.wide ? 104 : 76;
+  const w = label.width ?? (label.wide ? 104 : 76);
   const dur = press.up - press.down;
   const isHold = dur >= TAP_MAX;
   const down = t >= press.down && t < press.up;
@@ -158,7 +165,10 @@ export const KeyCaps: React.FC<{ events: DocEvent[]; t: number; end: number; bot
   const opacity = interpolate(t, [g.start - LEAD, g.start - LEAD + 0.15, g.end + tail - 0.2, g.end + tail], [0, 1, 1, 0], {
     extrapolateLeft: "clamp", extrapolateRight: "clamp",
   });
-  const keys = [...g.presses].sort((a, b) => order(a.key) - order(b.key) || a.down - b.down);
+  const role = g.presses.find((p) => p.as)?.as;
+  const keys = role
+    ? [{ key: `role:${role}`, down: g.start, up: g.end }]
+    : [...g.presses].sort((a, b) => order(a.key) - order(b.key) || a.down - b.down);
   return (
     <div style={{ position: "absolute", left: 0, right: 0, bottom, display: "flex", justifyContent: "center", opacity }}>
       <div style={{ display: "flex", alignItems: "center", gap: 14 }}>

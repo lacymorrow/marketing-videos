@@ -1,6 +1,8 @@
 // modkey: press modifier keys the way a keyboard does (flagsChanged events),
 // which juno-cua cannot send for fn or for one side of Option.
-// usage: modkey down|up <key>... | modkey hold <ms> <key>...
+// usage: modkey down|up <key>... | modkey hold <ms> <key>... | modkey scroll <px>
+// scroll: a smooth pixel-unit wheel gesture at the pointer (positive = down).
+// juno-cua's line scroll does not move a WKWebView page such as Juno Settings.
 // keys: fn ctrl ropt opt cmd shift   e.g. `modkey hold 1500 fn ctrl`
 import CoreGraphics
 import Foundation
@@ -17,6 +19,20 @@ let table: [String: (CGKeyCode, CGEventFlags)] = [
 var args = Array(CommandLine.arguments.dropFirst())
 guard let verb = args.first else { exit(64) }
 args.removeFirst()
+if verb == "scroll" {
+    guard let px = args.first.flatMap(Double.init) else { exit(64) }
+    let s = CGEventSource(stateID: .hidSystemState)
+    let steps = max(1, Int(abs(px) / 24))
+    for i in 0..<steps {
+        // ease in-out so the page glides rather than jumps
+        let a = 0.5 - 0.5 * cos(Double.pi * Double(i) / Double(steps))
+        let b = 0.5 - 0.5 * cos(Double.pi * Double(i + 1) / Double(steps))
+        let d = Int32(((b - a) * px).rounded())
+        CGEvent(scrollWheelEvent2Source: s, units: .pixel, wheelCount: 1, wheel1: -d, wheel2: 0, wheel3: 0)?.post(tap: .cghidEventTap)
+        usleep(16_000)
+    }
+    exit(0)
+}
 var ms = 1200.0
 if verb == "hold", let first = args.first, let v = Double(first) { ms = v; args.removeFirst() }
 let keys = args.compactMap { table[$0] }
