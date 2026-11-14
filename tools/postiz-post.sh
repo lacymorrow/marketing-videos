@@ -20,7 +20,8 @@ ID="$(postiz integrations:list | js | jq -r --arg c "$CH" '.[] | select((.identi
 M=()
 if [ -n "$MEDIA" ]; then
   [ -f "$MEDIA" ] || { echo "media missing: $MEDIA" >&2; exit 1; }
-  URL="$(postiz upload "$MEDIA" | js | jq -r '.path // .url // empty')"
+  URL=""; for try in 1 2 3; do  # video uploads hit ECONNRESET once on 2026-11-14
+    URL="$(postiz upload "$MEDIA" 2>/dev/null | js | jq -r '.path // .url // empty' 2>/dev/null || true)"; [ -n "$URL" ] && break; sleep 5; done
   [ -n "$URL" ] || { echo "media upload failed: $MEDIA" >&2; exit 1; }
   M=(-m "$URL")
 fi
