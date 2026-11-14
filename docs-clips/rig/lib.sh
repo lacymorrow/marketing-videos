@@ -23,19 +23,42 @@ ev() { # ev <type> <json-fields-without-braces>
 # One known profile for every clip: Lacy's settings minus chat history, bar
 # centred. The original folder is restored by `restore_juno` (and the
 # baseline snapshot in $RIG/baseline is never touched).
+# Quit Juno and make sure it is gone before its folder is touched. Juno can
+# hang inside its quit handler (seen with an MCP server running), and swapping
+# the folder under a live process lets it write the wrong settings on its way out.
+quit_juno() {
+  osascript -e 'with timeout of 10 seconds' -e 'quit app "Juno"' -e 'end timeout' >/dev/null 2>&1 || true
+  for _ in $(seq 1 20); do pgrep -qf 'Juno.app/Contents/MacOS' || return 0; sleep 0.5; done
+  echo "Juno did not quit; killing it" >&2
+  pkill -9 -f 'Juno.app/Contents/MacOS' || true; sleep 1
+  ! pgrep -qf 'Juno.app/Contents/MacOS'
+}
 reset_juno() {
-  osascript -e 'quit app "Juno"' >/dev/null 2>&1 || true
-  for _ in $(seq 1 20); do pgrep -qf 'Juno.app/Contents/MacOS' || break; sleep 0.5; done
-  if [ ! -d "$RIG/live-backup" ]; then cp -Rp "$JUNO_SUPPORT" "$RIG/live-backup"; fi
+  quit_juno || { echo "Juno is still running, not swapping its folder" >&2; exit 1; }
+  if [ ! -d "$RIG/live-backup" ]; then
+    cp -Rp "$JUNO_SUPPORT" "$RIG/live-backup"
+    # A dated copy per day as well, outside anything this script ever moves or deletes.
+    local snap="$RIG/baseline/com.juno.desktop-$(date +%Y%m%d)"
+    [ -d "$snap" ] || cp -Rp "$JUNO_SUPPORT" "$snap"
+  fi
+  # Only ever remove the clip profile: the live folder is safe in live-backup by now.
+  [ -d "$RIG/live-backup" ] || { echo "no live-backup, refusing to touch Juno's folder" >&2; exit 1; }
   rm -rf "$JUNO_SUPPORT"; cp -Rp "$RIG/profile" "$JUNO_SUPPORT"
   open -a /Applications/Juno.app
   for _ in $(seq 1 40); do pgrep -qf 'Juno.app/Contents/MacOS' && break; sleep 0.5; done
   sleep 6
 }
+# Never run this by hand while a scene is running or being killed: scenes.sh
+# calls it from an EXIT trap. The first mv claims the backup atomically, so a
+# second caller finds nothing and returns; the live folder is never deleted,
+# only the clip profile it replaces.
 restore_juno() {
-  [ -d "$RIG/live-backup" ] || return 0
-  osascript -e 'quit app "Juno"' >/dev/null 2>&1 || true; sleep 3
-  rm -rf "$JUNO_SUPPORT"; mv "$RIG/live-backup" "$JUNO_SUPPORT"
+  local claim="$RIG/live-restoring.$$"
+  mv "$RIG/live-backup" "$claim" 2>/dev/null || return 0
+  quit_juno || { mv "$claim" "$RIG/live-backup"; echo "Juno is still running, live folder left in live-backup" >&2; return 1; }
+  # Kept, not deleted: if this was ever wrong about which folder is live, nothing is lost.
+  if [ -d "$JUNO_SUPPORT" ]; then mkdir -p "$RIG/used"; mv "$JUNO_SUPPORT" "$RIG/used/$(date +%Y%m%d-%H%M%S).$$"; fi
+  mv "$claim" "$JUNO_SUPPORT"
   open -a /Applications/Juno.app
 }
 
@@ -43,9 +66,10 @@ restore_juno() {
 # The recorder takes the whole display, so every other app is hidden first:
 # a clip must never show someone's tabs, mail or messages. Hidden, not quit,
 # so nothing is lost; Juno and the app a scene opens itself stay visible.
+# KEEP="TextEdit" leaves the app a scene staged on screen visible.
 clear_stage() {
-  osascript -e 'tell application "System Events" to set visible of (every process whose background only is false and name is not "Juno") to false' >/dev/null 2>&1 || true
-  sleep 0.5
+  osascript -e 'tell application "System Events" to set visible of (every process whose background only is false and name is not "Juno" and name is not "'"${KEEP:-Juno}"'") to false' >/dev/null 2>&1 || true
+  sleep 1
 }
 begin() { # begin <slug> <title> [chapter]
   SLUG=$1; TITLE=$2; CHAPTER=${3:-0}
@@ -67,13 +91,16 @@ end_clip() {
 }
 
 # --- actions (each one logs what a viewer should see) ----------------------
+# AS=talk|dictation on a key action marks the keys as that rebindable shortcut,
+# so the overlay names it ("talk key") instead of drawing this rig's keys.
+kd() { ev keydown "\"key\":\"$1\"${AS:+,\"as\":\"$AS\"}"; }
 hold_keys() { # hold_keys <ms> <key>... (fn, ctrl, ropt, opt, cmd, shift)
   local ms=$1; shift
-  for k in "$@"; do ev keydown "\"key\":\"$k\""; done
+  for k in "$@"; do kd "$k"; done
   "$BIN/modkey" hold "$ms" "$@"
   for k in "$@"; do ev keyup "\"key\":\"$k\""; done
 }
-keys_down() { for k in "$@"; do ev keydown "\"key\":\"$k\""; done; "$BIN/modkey" down "$@"; }
+keys_down() { for k in "$@"; do kd "$k"; done; "$BIN/modkey" down "$@"; }
 keys_up()   { "$BIN/modkey" up "$@"; for k in "$@"; do ev keyup "\"key\":\"$k\""; done; }
 say_line() { # say_line "<text>": spoken into BlackHole, which Juno listens on
   local text=$1 t0 t1

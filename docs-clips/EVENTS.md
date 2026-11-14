@@ -24,6 +24,7 @@ One file per clip, next to the recording: `<slug>/events.json` + `<slug>/raw.mp4
 
 Rules
 - keydown/keyup always come in pairs per key; a held key is keydown..keyup. A tap is a pair < 0.4 s apart and must READ differently from a hold (Juno cancels presses under 400 ms).
+- A keydown may carry `"as": "talk"` or `"as": "dictation"`: the keys stand for a shortcut people rebind, so the overlay draws one cap named "talk key" or "dictation key" instead of the physical keys. Use it for every press of the talk or dictation shortcut; leave it off when the clip is about the keys themselves (recording a new shortcut).
 - Modifier combos are simultaneous keydowns (e.g. fn + ctrl for dictation); render as one combo of caps.
 - Times are seconds from the start of raw.mp4.
 
