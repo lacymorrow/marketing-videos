@@ -97,7 +97,7 @@ begin() { # begin <slug> <title> [chapter]
 end_clip() {
   sleep 0.8
   if [ -n "${DRY:-}" ]; then echo "dry run: $CLIP/events.jsonl"; return 0; fi
-  kill -INT "$REC_PID"; wait "$REC_PID" || true
+  kill -INT "$REC_PID"; wait "$REC_PID" || true; REC_PID=
   python3 "$RIG/finalize.py" "$CLIP" "$SLUG" "$TITLE" "$CHAPTER"
   echo "clip: $CLIP"
 }
