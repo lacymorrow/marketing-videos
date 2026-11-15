@@ -1,6 +1,7 @@
 // modkey: press modifier keys the way a keyboard does (flagsChanged events),
 // which juno-cua cannot send for fn or for one side of Option.
-// usage: modkey down|up <key>... | modkey hold <ms> <key>... | modkey scroll <px>
+// usage: modkey down|up <key>... | modkey hold <ms> <key>... | modkey scroll <px> | modkey drag <x1> <y1> <x2> <y2>
+// drag: press, glide, release with the left button, as a hand does (juno-cua has no drag).
 // scroll: a smooth pixel-unit wheel gesture at the pointer (positive = down).
 // juno-cua's line scroll does not move a WKWebView page such as Juno Settings.
 // keys: fn ctrl ropt opt cmd shift   e.g. `modkey hold 1500 fn ctrl`
@@ -31,6 +32,24 @@ if verb == "scroll" {
         CGEvent(scrollWheelEvent2Source: s, units: .pixel, wheelCount: 1, wheel1: -d, wheel2: 0, wheel3: 0)?.post(tap: .cghidEventTap)
         usleep(16_000)
     }
+    exit(0)
+}
+if verb == "drag" {
+    let v = args.compactMap(Double.init)
+    guard v.count == 4 else { exit(64) }
+    let s = CGEventSource(stateID: .hidSystemState)
+    let a = CGPoint(x: v[0], y: v[1]), b = CGPoint(x: v[2], y: v[3])
+    func send(_ t: CGEventType, _ p: CGPoint) {
+        CGEvent(mouseEventSource: s, mouseType: t, mouseCursorPosition: p, mouseButton: .left)?.post(tap: .cghidEventTap)
+    }
+    send(.mouseMoved, a); usleep(80_000)
+    send(.leftMouseDown, a); usleep(150_000)
+    let steps = 45
+    for i in 1...steps {
+        let k = 0.5 - 0.5 * cos(Double.pi * Double(i) / Double(steps))
+        send(.leftMouseDragged, CGPoint(x: a.x + (b.x - a.x) * k, y: a.y + (b.y - a.y) * k)); usleep(16_000)
+    }
+    usleep(120_000); send(.leftMouseUp, b)
     exit(0)
 }
 var ms = 1200.0

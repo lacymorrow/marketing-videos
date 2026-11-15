@@ -36,3 +36,12 @@ Install on graphite: copy this folder to `~/.cache/juno-docs-rig/`, then
 Needs, once per macOS update (they reset): Screen & System Audio Recording,
 Accessibility and Full Disk Access for `/usr/libexec/sshd-keygen-wrapper`.
 Runs only while nobody is using graphite.
+
+## Section clips (batch scenes)
+
+- `bash scenes.sh <slug>` runs any `scene_<slug>` function; `survey` and `survey2` record nothing and dump every Settings section's AX tree and a screenshot to `dumps/`, so new scenes are written against real labels.
+- `reveal <label> [role]` scrolls Settings until a control is in view; `flip` toggles a switch off and back on; `settings_clip <slug> <title> [adv]` is the usual opening.
+- `modkey drag x1 y1 x2 y2` is a left-button drag with an eased glide (bar moves, sliders); juno-cua has no drag.
+- The EXIT trap must never fail under `set -e`: `stop_rec` swallows a dead recorder pid, otherwise the trap exits before `restore_juno` and the live settings wait in `live-backup` until the next run.
+- Scenes that need the AI (type to Juno, computer use, approvals, asking for an automation) fail quietly when the Claude account behind graphite is over its limit: Juno answers with the limit message. Check a frame before publishing.
+- Clean up dictation needs Apple silicon; graphite is Intel, so that clip cannot be recorded here.
