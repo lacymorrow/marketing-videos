@@ -609,7 +609,7 @@ scene_dictation_show_words() {
   KEEP=TextEdit begin dictation-show-words "See words as you speak" 4
   click_at 450 400; sleep 0.6
   caption "With Show words as I speak on, the bar shows words as you talk." 3.5
-  dictate "Remind me to call the dentist tomorrow morning and book a cleaning for next month."
+  dictate "Book a table for two at seven tonight."
   caption "Only the final result is typed." 3
   wait_text_settled; watch_for 1.5
   end_clip; textedit_quit
