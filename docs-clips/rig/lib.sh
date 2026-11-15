@@ -27,11 +27,23 @@ ev() { # ev <type> <json-fields-without-braces>
 # hang inside its quit handler (seen with an MCP server running), and swapping
 # the folder under a live process lets it write the wrong settings on its way out.
 quit_juno() {
-  osascript -e 'with timeout of 10 seconds' -e 'quit app "Juno"' -e 'end timeout' >/dev/null 2>&1 || true
-  for _ in $(seq 1 20); do pgrep -qf 'Juno.app/Contents/MacOS' || return 0; sleep 0.5; done
-  echo "Juno did not quit; killing it" >&2
-  pkill -9 -f 'Juno.app/Contents/MacOS' || true; sleep 1
-  ! pgrep -qf 'Juno.app/Contents/MacOS'
+  # Up to three rounds: Juno's updater installs a downloaded update on quit and
+  # relaunches it a second or so later, so "gone" is only true once it stays gone.
+  local round
+  for round in 1 2 3; do
+    if pgrep -qf 'Juno.app/Contents/MacOS'; then
+      osascript -e 'with timeout of 10 seconds' -e 'quit app "Juno"' -e 'end timeout' >/dev/null 2>&1 || true
+      for _ in $(seq 1 20); do pgrep -qf 'Juno.app/Contents/MacOS' || break; sleep 0.5; done
+      if pgrep -qf 'Juno.app/Contents/MacOS'; then
+        echo "Juno did not quit; killing it" >&2
+        pkill -9 -f 'Juno.app/Contents/MacOS' || true
+      fi
+    fi
+    sleep 4   # long enough to see an update relaunch
+    pgrep -qf 'Juno.app/Contents/MacOS' || return 0
+    echo "Juno came back (update relaunch?); quitting again" >&2
+  done
+  return 1
 }
 reset_juno() {
   quit_juno || { echo "Juno is still running, not swapping its folder" >&2; exit 1; }
