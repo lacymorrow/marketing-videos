@@ -575,19 +575,19 @@ dictate() { # dictate "<words>": hold the dictation key, speak, let go
 ask_by_voice() { AS=talk keys_down fn; sleep 0.5; say_line "$1"; sleep 0.4; keys_up fn; }
 
 scene_type_to_juno() {
+  # A question Juno answers in the bar: nothing private on screen (a Finder
+  # window would show the owner's file names).
   reset_juno
   begin type-to-juno "Type to Juno" 2
   caption "Click the bar." 2
   click_at $BAR_X $BAR_Y; sleep 1.2
-  DEBUG=1 dumpui typebar
   caption "Type where it says Ask Juno, and press Return." 3
-  local t0; t0=$(now); cua type-text --text "Open my Downloads folder" >/dev/null; sleep 0.5
+  local t0; t0=$(now); cua type-text --text "How many days until Christmas?" >/dev/null; sleep 0.5
   printf '{"t":%s,"duration":%s}\n' "$t0" "$(echo "$(now) - $t0" | bc | sed 's/^\./0./')" >> "$CLIP/busy.jsonl"
   press return
-  for _ in $(seq 1 40); do osascript -e 'tell application "System Events" to (name of every window of process "Finder") contains "Downloads"' 2>/dev/null | grep -q true && break; sleep 0.5; done
-  watch_for 2.5
+  caption "Juno answers in the bar. Type again to follow up." 3.5
+  watch_for 12
   end_clip
-  osascript -e 'tell application "System Events" to tell process "Finder" to if exists window "Downloads" then click button 1 of window "Downloads"' >/dev/null 2>&1 || true
 }
 scene_dictate_into_app() {
   reset_juno; fresh_note
