@@ -765,13 +765,14 @@ scene_mcp_toggle_server() {
 scene_mcp_toggle_tool() {
   mcp_clip mcp-toggle-tool "Turn one tool off"
   local x y w h; read -r x y w h < <(need Juno "tools")
-  caption "Click a server to see the tools it offers." 3
+  caption "Click the tool count to see what the server offers." 3
   focus "$((x - 20))" "$((y - 6))" "$((w + 40))" "$((h + 12))" "tools" 2
   click_at $(center "$x" "$y" "$w" "$h"); sleep 1.5
-  DEBUG=1 dumpui mcp-tools
-  read -r x y w h < <(need Juno "delete_entities" --role AXCheckBox)
-  caption "Turn off one tool and keep the rest of the server." 3
-  focus "$((x - 300))" "$((y - 10))" "$((w + 310))" "$((h + 20))" "delete_entities" 2.5
+  # The count opens Tools, where a server's tools are listed as <server>_<tool>.
+  reveal "memory_delete_entities" AXCheckBox
+  read -r x y w h < <(need Juno "memory_delete_entities" --role AXCheckBox)
+  caption "Its tools are listed in Tools. Turn one off and keep the rest." 3.5
+  focus "$((x - 340))" "$((y - 14))" "$((w + 350))" "$((h + 28))" "memory_delete_entities" 2.5
   click_at $(center "$x" "$y" "$w" "$h"); sleep 1.2
   watch_for 2
   done_clip
