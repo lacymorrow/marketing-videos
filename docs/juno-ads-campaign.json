@@ -84,7 +84,7 @@
           1.8
         ]
       ],
-      "retired": "Lacy 2026-10-30: asking an assistant to open Calculator is silly when it can just answer. Do not use in new ads; make-juno-do-it already went out with it."
+      "retired": "Lacy 2026-10-30: asking an assistant to open Calculator is silly when it can just answer. Do not use in new ads; make-juno-do-it already went out with it. Lacy 2026-11-17: footage deleted, and every ad built on it (make-juno-do-it) is retired too."
     },
     "receipts": {
       "file": "juno-ads/clip-receipts.mp4",
@@ -211,13 +211,14 @@
     },
     {
       "id": "make-juno-do-it",
-      "status": "ready",
+      "status": "retired",
       "mirrors": "Meta Muse: Make Muse do it. / Muse gets things done.",
       "headline": [
         "Make Juno do it."
       ],
       "clip": "calc",
-      "subline": "Say it out loud. It gets done, on your computer."
+      "subline": "Say it out loud. It gets done, on your computer.",
+      "retired": "Lacy 2026-11-17: built on the calc clip, so it is the calculator demo. Never post or render it. Juno answers 64x64 directly; showing it open Calculator makes it look dumb."
     },
     {
       "id": "hand-it-off",
