@@ -45,3 +45,7 @@ Runs only while nobody is using graphite.
 - The EXIT trap must never fail under `set -e`: `stop_rec` swallows a dead recorder pid, otherwise the trap exits before `restore_juno` and the live settings wait in `live-backup` until the next run.
 - Scenes that need the AI (type to Juno, computer use, approvals, asking for an automation) fail quietly when the Claude account behind graphite is over its limit: Juno answers with the limit message. Check a frame before publishing.
 - Clean up dictation needs Apple silicon; graphite is Intel, so that clip cannot be recorded here.
+
+## Testing a Juno PR build
+
+`bash qa-build.sh <path-to-Juno.app> <scene>...` moves the installed Juno aside, installs the test build, runs the scenes (idle-gated), and puts the installed Juno back on exit. Auto-update is switched off in the clip profile for the run, because a branch build is older than the release and the updater would replace it on the first quit. `permissions-approval-card` prints `QA:` lines saying whether its folder existed before and after Allow.

@@ -655,12 +655,14 @@ scene_permissions_approval_card() {
   local r="" x y w h
   for _ in $(seq 1 40); do r=$(locate Juno "Allow" --role button) && break; sleep 1; done
   DEBUG=1 dumpui approval
+  [ -d "$HOME/Desktop/Trip" ] && echo "QA: Trip exists BEFORE Allow" || echo "QA: Trip absent before Allow"
   [ -n "$r" ] || { echo "scene failed: no Allow button" >&2; exit 2; }
   read -r x y w h <<< "$r"
   caption "Read what it wants to do, then choose Allow." 3
   focus "$x" "$y" "$w" "$h" "Allow" 2
   click_at $(center "$x" "$y" "$w" "$h")
   for _ in $(seq 1 30); do [ -d "$HOME/Desktop/Trip" ] && break; sleep 0.5; done
+  [ -d "$HOME/Desktop/Trip" ] && echo "QA: Trip created after Allow" || echo "QA: Trip missing after Allow"
   watch_for 2.5
   end_clip
   [ -d "$HOME/Desktop/Trip" ] && [ "$HOME/Desktop/Trip" -nt "$CLIP/raw.mov.t0" ] && trash "$HOME/Desktop/Trip"
@@ -734,6 +736,46 @@ scene_dictation_pick_model() {
   done_clip
 }
 BATCH2="type-to-juno dictate-into-app dictation-show-words computer-use-escape-stop automations-ask-juno permissions-approval-card shortcuts-mouse-button shortcuts-wake-phrase voice-speaking-speed appearance-drag-bar dictation-pick-model"
+
+# MCP switches: add the memory server off camera, then film the switches.
+mcp_clip() { # mcp_clip <slug> <title>
+  reset_juno
+  DRY=1 begin "$1-setup" setup 0
+  open_settings; advanced_on; sidebar Network
+  type_into "Server Configuration (JSON)" '{"memory": {"command": "npx", "args": ["@modelcontextprotocol/server-memory"]}}'
+  scroll_page 500; tap "Add Server" "" button; sleep 8
+  scroll_page -2000; sleep 1
+  DEBUG=1 dumpui "$1-ready"
+  begin "$1" "$2" 6
+}
+mcp_switch() { # the server row's switch has no label; it shares a row with "MCP Server: memory"
+  local x y w h; read -r x y w h < <(need Juno "MCP Server: memory")
+  echo "$((x + 279)) $y 32 19"
+}
+scene_mcp_toggle_server() {
+  mcp_clip mcp-toggle-server "Turn a server off"
+  local x y w h; read -r x y w h < <(mcp_switch)
+  caption "Each server in Active MCP Servers has a switch." 3
+  focus "$((x - 290))" "$((y - 30))" "$((w + 300))" "64" "memory" 2.5
+  click_at $(center "$x" "$y" "$w" "$h"); sleep 1.2
+  caption "Turn it off, and Juno stops using that server." 3
+  watch_for 2.5
+  done_clip
+}
+scene_mcp_toggle_tool() {
+  mcp_clip mcp-toggle-tool "Turn one tool off"
+  local x y w h; read -r x y w h < <(need Juno "tools")
+  caption "Click a server to see the tools it offers." 3
+  focus "$((x - 20))" "$((y - 6))" "$((w + 40))" "$((h + 12))" "tools" 2
+  click_at $(center "$x" "$y" "$w" "$h"); sleep 1.5
+  DEBUG=1 dumpui mcp-tools
+  read -r x y w h < <(need Juno "delete_entities" --role AXCheckBox)
+  caption "Turn off one tool and keep the rest of the server." 3
+  focus "$((x - 300))" "$((y - 10))" "$((w + 310))" "$((h + 20))" "delete_entities" 2.5
+  click_at $(center "$x" "$y" "$w" "$h"); sleep 1.2
+  watch_for 2
+  done_clip
+}
 
 scene_survey2() { # no recording: the bar, beta rows, Models, wake phrase, Mouse tab
   reset_juno
