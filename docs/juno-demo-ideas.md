@@ -51,3 +51,11 @@ Rule: every demo is a job the model cannot do by answering. One job per ad. Spok
 5. Reply to the staged contact, then "Stop." on a second request. Slogan: "Works on your computer. Not someone else's." Shows control.
 
 Each needs a staged folder or account on graphite before the rig runs it. Receipts and rename scenes already in scenes.txt stay ahead of these in the queue.
+
+## Copy rule: one meaning of "receipt" per post (Lacy, 2026-11-18)
+
+"Receipt" means two different things for Juno. Never mix them in one post.
+- **Audit-trail receipt:** Juno's own log of what it pressed, where, and in what order. Copy about this needs footage that shows that log on screen.
+- **Purchase receipt:** a store receipt, like the headphones PDF in the old receipts clip.
+
+The 11-18 10 AM post paired audit-trail copy with footage of purchase-receipt PDFs being filed, and Lacy flagged it. Before posting, check that the caption describes what is actually on screen.
