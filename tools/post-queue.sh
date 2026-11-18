@@ -50,11 +50,11 @@ while IFS=$'\t' read -r day acct media comm text; do
   [[ "$day" == "$TODAY" && "$HOUR10" -lt "$hh" ]] && continue
   key="$fday|$acct|$media|$comm"
   grep -qF "	$key	" "$DONE" && continue
-  case "$media" in *calc*|*make-juno-do-it*)  # Lacy 2026-10-30 + 2026-11-17: no calculator demos, ever (make-juno-do-it is cut from the calc clip)
-    [ -n "$DRY" ] && { echo "dry-run: banned calculator media, skip [$key]"; continue; }
-    printf %s	%s	BANNED calculator demo
+  case "$media" in *calc*|*make-juno-do-it*|*juno-ad-*|*juno-ads/clip-*)  # Lacy 2026-10-30 + 2026-11-17: no calculator demos, ever. 2026-11-18: every juno-ad is cut from folder/tidy/receipts clips (two clicks and a drag), held until real-world demos exist
+    [ -n "$DRY" ] && { echo "dry-run: banned weak juno media, skip [$key]"; continue; }
+    printf %s	%s	BANNED weak juno demo
  "$(date +%F %T)" "$key" >> "$DONE"; digest+=$
-"Skipped, calculator demo is banned: [$key]"; continue;;
+"Skipped, weak Juno demo is banned: [$key]"; continue;;
   esac
   if [[ "$day" < "$STALE_BEFORE" ]]; then
     [ -n "$DRY" ] && { echo "dry-run: stale, skip [$key]"; continue; }
