@@ -36,7 +36,11 @@ mkdir -p "$L"; touch "$DONE"
 
 day_add(){ date -j -v"$2"d -f %F "$1" +%F 2>/dev/null || date -d "$1 $2 day" +%F; }
 STALE_BEFORE="$(day_add "$TODAY" "-$STALE_DAYS")"
-notify(){ [ -n "$DRY" ] && { echo "dry-run: slack: $1"; return; }; "$SLACK" -c "$LACY" -m "$1" >/dev/null 2>&1 || true; }
+# --sender is how the LAC-8649 send gate in slack-post.sh counts this sender's
+# week. Without it every caller pools under `adhoc`, which has a lower declared
+# ceiling than this queue's measured 23 DMs in a week, and the digest would
+# attribute our drops to nobody.
+notify(){ [ -n "$DRY" ] && { echo "dry-run: slack: $1"; return; }; "$SLACK" -c "$LACY" --sender post-queue -m "$1" >/dev/null 2>&1 || true; }
 ticket(){ # ticket <title> <description>; dedupes on a recent open title server-side
   [ -n "$DRY" ] && { echo "dry-run: ticket: $1"; return; }
   "$TASK" create --company LAC --assign "Marketing Lead" --priority high --title "$1" --description "$2" >>"$L/post-queue.tickets.log" 2>&1 || true

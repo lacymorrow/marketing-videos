@@ -46,4 +46,12 @@ setup '2026-11-18@10\tjunebug_ai\t-\t-\told post\n'; rm -f "$H/.paperclip/logs/.
 grep -q 'Queue is thin' "$H/out.log" && ok "thin-queue line is logged" || bad "thin-queue line is logged"
 grep -q 'Post queue is thin' "$DM" 2>/dev/null && ok "thin-queue still DMs" || bad "thin-queue still DMs"
 
+# LAC-8649: every DM must carry --sender, or the send gate pools this queue under
+# `adhoc` and suppresses it well below the 23 DMs it sends in a busy week.
+setup '2026-11-19@11\tjunebug_ai\t-\t-\tplain post\n'
+printf '#!/bin/bash\necho https://x.com/junebug_ai/status/1\nexit 0\n' > "$H/repo/marketing-videos/tools/x-post.sh"; run
+grep -q -- '--sender post-queue' "$DM" 2>/dev/null && ok "DM carries --sender post-queue" || bad "DM carries --sender post-queue: $(cat "$DM" 2>/dev/null)"
+grep -q -- '--sender juno-demo-rig' "$(cd "$(dirname "$0")/.." && pwd)/tools/juno-demo-rig/tools/notify" \
+  && ok "the juno rig notifier carries --sender" || bad "the juno rig notifier carries --sender"
+
 echo "$pass passed, $failn failed"; [ "$failn" = 0 ]

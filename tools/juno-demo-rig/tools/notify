@@ -3,4 +3,6 @@
 . "$(dirname "$0")/../lib.sh"
 MSG="$*"; [ -z "$MSG" ] && exit 2; h=$(printf %s "$MSG" | md5 -q); [ -f $RUN/notified-$h ] && exit 0; touch $RUN/notified-$h
 log "ATTENTION: $MSG"
-[ -x ~/.openclaw/scripts/slack-post.sh ] && ~/.openclaw/scripts/slack-post.sh -c U3XC80UUQ -m "Juno rig on $(hostname -s): $MSG" >/dev/null 2>&1 || true
+# --sender tags this for the LAC-8649 send gate. The rig runs on graphite, so
+# this is the one sender in the census that is not on zero at all.
+[ -x ~/.openclaw/scripts/slack-post.sh ] && ~/.openclaw/scripts/slack-post.sh -c U3XC80UUQ --sender juno-demo-rig -m "Juno rig on $(hostname -s): $MSG" >/dev/null 2>&1 || true
