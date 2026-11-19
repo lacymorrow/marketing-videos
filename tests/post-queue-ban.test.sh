@@ -41,4 +41,9 @@ setup '2026-11-19@11\tjunebug_ai\t-\t-\tplain post\n'
 printf '#!/bin/bash\necho https://x.com/junebug_ai/status/1\nexit 0\n' > "$H/repo/marketing-videos/tools/x-post.sh"; run
 grep -q 'https://x.com/junebug_ai/status/1' "$DM" 2>/dev/null && ok "posted URL still DMs" || bad "posted URL still DMs"
 
+# LAC-8641: the thin-queue line must reach the log, not only the DM. Depth stamp removed so the depth check runs.
+setup '2026-11-18@10\tjunebug_ai\t-\t-\told post\n'; rm -f "$H/.paperclip/logs/.post-queue-depth-day"; run
+grep -q 'Queue is thin' "$H/out.log" && ok "thin-queue line is logged" || bad "thin-queue line is logged"
+grep -q 'Post queue is thin' "$DM" 2>/dev/null && ok "thin-queue still DMs" || bad "thin-queue still DMs"
+
 echo "$pass passed, $failn failed"; [ "$failn" = 0 ]

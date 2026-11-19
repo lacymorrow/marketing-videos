@@ -121,7 +121,8 @@ if [ -n "$DRY" ] || [ "$(cat "$stamp" 2>/dev/null)" != "$TODAY" ]; then
       ticket "Post queue runs dry after ${last:-today}: refill post-queue.tsv (Juno, Prescription Finder, CamFetti, Linger)" "Only $ndays future day(s) carry a post in ~/repo/marketing-videos/tools/post-queue.tsv (minimum $MIN_DAYS). Add at least 7 more days: one @junebug_ai post per day (Juno) and one @lacybuilds post per day rotating Juno, Prescription Finder, CamFetti and Linger.
 
 Rules are in the header of tools/post-queue.sh and the parent calendar issue. Voice: lowercase, plain, one idea per post for @junebug_ai; first person as Lacy for @lacybuilds. No em dashes. Run humanizer. Never the same clip twice in one place. Linger posts carry no link until LAC-6248 clears. Commit the tsv. Then close this issue with the date range you added."
-      digest+=$'\n'"Queue is thin: $ndays future days. Filed a refill issue for the Marketing Lead."
+      # The digest was already flushed above, so appending to it logged nothing (LAC-8641). Log the line directly.
+      echo "$(date '+%F %T') Queue is thin: $ndays future days. Filed a refill issue for the Marketing Lead."
       notify "Post queue is thin: $ndays future day(s) left after $TODAY. Refill issue filed for the Marketing Lead."
     fi
   fi
