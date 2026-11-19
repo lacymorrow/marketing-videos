@@ -52,9 +52,8 @@ while IFS=$'\t' read -r day acct media comm text; do
   grep -qF "	$key	" "$DONE" && continue
   case "$media" in *calc*|*make-juno-do-it*|*juno-ad-*|*juno-ads/clip-*)  # Lacy 2026-10-30 + 2026-11-17: no calculator demos, ever. 2026-11-18: every juno-ad is cut from folder/tidy/receipts clips (two clicks and a drag), held until real-world demos exist
     [ -n "$DRY" ] && { echo "dry-run: banned weak juno media, skip [$key]"; continue; }
-    printf %s	%s	BANNED weak juno demo
- "$(date +%F %T)" "$key" >> "$DONE"; digest+=$
-"Skipped, weak Juno demo is banned: [$key]"; continue;;
+    printf '%s\t%s\tBANNED weak juno demo\n' "$(date '+%F %T')" "$key" >> "$DONE"
+    digest+=$'\n'"Skipped, weak Juno demo is banned: [$key]"; continue;;
   esac
   if [[ "$day" < "$STALE_BEFORE" ]]; then
     [ -n "$DRY" ] && { echo "dry-run: stale, skip [$key]"; continue; }
@@ -97,7 +96,12 @@ $out
 Fix the cause (auth, media, text length), then post it by hand with tools/x-post.sh, then add a row to ~/.paperclip/logs/post-queue.done so the queue agrees. Log the URL on this issue. Runbook: tools/post-queue.sh header."
   fi
 done < "$Q"
-[ -n "$digest" ] && { echo "$(date '+%F %T')$digest"; notify "Post queue $TODAY:$digest"; }
+# A DM to Lacy must name something only Lacy can do (LAC-6446). Skip lines are context, not news: log the digest always,
+# DM only when it carries a posted URL or a FAILED line.
+if [ -n "$digest" ]; then
+  echo "$(date '+%F %T')$digest"
+  if printf '%s' "$digest" | grep -qE '^(@[^ ]+: https?://|FAILED )'; then notify "Post queue $TODAY:$digest"; fi
+fi
 
 # Depth check, once a day after the posting pass.
 stamp="$L/.post-queue-depth-day"
