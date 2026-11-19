@@ -36,4 +36,9 @@ setup "${BAN}2026-11-19@11\tjunebug_ai\t-\t-\tplain post\n"; run
 grep -q 'FAILED @junebug_ai' "$DM" 2>/dev/null && ok "FAILED line still DMs" || bad "FAILED line still DMs"
 grep -q 'Skipped, weak Juno demo' "$DM" 2>/dev/null && ok "skip line rides along in the DM" || bad "skip line rides along in the DM"
 
+# A posted URL must still DM (the other half of the gate: without it a mutant that drops the URL arm passes).
+setup '2026-11-19@11\tjunebug_ai\t-\t-\tplain post\n'
+printf '#!/bin/bash\necho https://x.com/junebug_ai/status/1\nexit 0\n' > "$H/repo/marketing-videos/tools/x-post.sh"; run
+grep -q 'https://x.com/junebug_ai/status/1' "$DM" 2>/dev/null && ok "posted URL still DMs" || bad "posted URL still DMs"
+
 echo "$pass passed, $failn failed"; [ "$failn" = 0 ]
