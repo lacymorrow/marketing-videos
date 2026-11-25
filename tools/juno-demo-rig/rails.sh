@@ -25,21 +25,18 @@ hide_others(){ osascript -e 'tell application "System Events" to tell process "j
   pgrep -xq "System Information" && { osascript -e 'quit app "System Information"' >/dev/null 2>&1; log "closed About This Mac"; }; }
 unhide(){ pkill -INT -f "avfoundation" 2>/dev/null; while read -r p; do [ -n "$p" ] && osascript -e "tell application \"System Events\" to set visible of process \"$p\" to true" >/dev/null 2>&1; done < $RUN/hidden 2>/dev/null; : > $RUN/hidden; }
 cleanup_apps(){ for a in Spotify Music; do pgrep -xq "$a" && osascript -e "tell application \"$a\" to pause" >/dev/null 2>&1; done
-  for a in Calculator Spotify Music Chess "System Settings"; do grep -qx "$a" $RUN/pre_apps 2>/dev/null && continue; pgrep -xq "$a" && { osascript -e "tell application \"$a\" to quit" >/dev/null 2>&1; log "quit $a (demo launched it)"; }; done
+  for a in Calculator Spotify Music Chess TextEdit "System Settings"; do grep -qx "$a" $RUN/pre_apps 2>/dev/null && continue; pgrep -xq "$a" && { osascript -e "tell application \"$a\" to quit" >/dev/null 2>&1; log "quit $a (demo launched it)"; }; done
   # the dark-mode scene changes appearance; graphite records in light mode with the default accent, so put it back
   osascript -e 'tell application "System Events" to tell appearance preferences to set dark mode to false' >/dev/null 2>&1; defaults delete -g AppleAccentColor >/dev/null 2>&1; return 0; }
-# a system banner (top right, owner NotificationCenter) stays in frame for the whole take; hover it and press its close button
-dismiss_banners(){ local W=$(ptw) b; for try in 1 2; do
-    b=$(osascript -l JavaScript "$DIR/winlist.js" 2>/dev/null | awk -F' [|] ' -v w="$W" '$1 ~ /Notification ?Center/ {split($4,a,/[ ,x]/); if (a[1] > w-500 && a[2] < 200 && a[3] >= 300) {print a[1], a[2], a[3], a[4]; exit}}')
-    [ -z "$b" ] && return 0; set -- $b; log "banner on screen at $1,$2 ${3}x$4; closing it"
-    cliclick m:$(( $1 + $3/2 )),$(( $2 + $4/2 )) w:1200 c:$(( $1 + 10 )),$(( $2 + 7 )); mark; sleep 1.5; done; }
+# a system banner stays in frame for the whole take; close it through its accessibility action (tools/dismiss-banners.applescript)
+dismiss_banners(){ local n=$(osascript "$DIR/tools/dismiss-banners.applescript" 2>/dev/null); [ "${n:-0}" -gt 0 ] && { log "closed $n notification banner(s)"; sleep 1.5; }; return 0; }
 screen_check(){ local bad=""; osascript -l JavaScript "$DIR/winlist.js" | awk -F' [|] ' '$5=="L0" {print $1}' | sort -u | while read -r o; do case "$ALLOWED" in *" $o "*) ;; *) echo "$o";; esac; done > $RUN/stray
   [ -s $RUN/stray ] && bad="unexpected window on screen: $(tr '\n' ' ' < $RUN/stray)"
   local FW=$(osascript -e 'tell application "Finder" to get POSIX path of (target of every Finder window as alias list)' 2>/dev/null | tr ',' '\n' | sed 's/^ *//' | grep .)
   [ -n "$FW" ] && log "finder windows: $(echo "$FW" | tr '\n' ' ')"
   local f; for f in $FW; do case "$f" in /Users/lacy/Desktop/@/|/Users/lacy/Desktop/@/*) ;; *) bad="Finder shows $f";; esac; done
   echo "$bad"; }
-run_scene(){ local NAME=$1 BRIEF=$2; local ST="$OUT/states-$NAME"; mkdir -p "$ST"; rm -f $RUN/abort $RUN/ended; mark; local L0=$(wc -l < $LOG); wc -l < "$(jlog)" > $RUN/n0   # the wait tool reads Juno's log from here, so earlier scenes never bleed in
+run_scene(){ local NAME=$1 BRIEF=$2; case "$NAME" in voice-road-trip) local REC_T=600 DIR_T=570; ALLOWED="$ALLOWED TextEdit ";; esac; local ST="$OUT/states-$NAME"; mkdir -p "$ST"; rm -f $RUN/abort $RUN/ended; mark; local L0=$(wc -l < $LOG); wc -l < "$(jlog)" > $RUN/n0   # the wait tool reads Juno's log from here, so earlier scenes never bleed in
   local TAKE="$OUT/juno-$NAME-$(date +%Y%m%d-%H%M).mov"; apps > $RUN/pre_apps
   osascript -e 'tell application "System Events" to tell process "BluetoothUIServer" to click button "Cancel" of window 1' >/dev/null 2>&1; allow_tcc
   # Finder in column view shows the parent folder's real names next to the staged folder; list view shows only the folder
@@ -52,7 +49,7 @@ run_scene(){ local NAME=$1 BRIEF=$2; local ST="$OUT/states-$NAME"; mkdir -p "$ST
   if [ "$(defaults read com.apple.finder CreateDesktop 2>/dev/null)" != 0 ] && [ "$(ls ~/Desktop 2>/dev/null | wc -l | tr -d ' ')" -gt 8 ]; then
     log "REFUSED: desktop icons are showing on a real Desktop ($(ls ~/Desktop | wc -l | tr -d ' ') items); run: defaults write com.apple.finder CreateDesktop -bool false; killall Finder"; notify "I will not record on $(hostname -s) while its real Desktop icons are showing. Hide them: defaults write com.apple.finder CreateDesktop -bool false; killall Finder"; return 1; fi
   local pre=$(screen_check); [ -n "$pre" ] && { log "desktop not clean before recording: $pre"; return 1; }
-  log "recording $TAKE"; ffmpeg -hide_banner -loglevel error -f avfoundation -framerate 30 -pixel_format nv12 -capture_cursor 1 -i "Capture screen 0:none" -t 300 -c:v h264_videotoolbox -b:v 14M -pix_fmt yuv420p -y "$TAKE" </dev/null >/dev/null 2>&1 & local REC=$!; mark; sleep 2
+  log "recording $TAKE"; ffmpeg -hide_banner -loglevel error -f avfoundation -framerate 30 -pixel_format nv12 -capture_cursor 1 -i "Capture screen 0:none" -t ${REC_T:-300} -c:v h264_videotoolbox -b:v 14M -pix_fmt yuv420p -y "$TAKE" </dev/null >/dev/null 2>&1 & local REC=$!; mark; sleep 2
   local kind=TYPED; [ "$SPEAK" = 1 ] && kind=SPOKEN
   local prompt="$(sed "s#TOOLS/#$DIR/tools/#g" $DIR/persona.md)
 
@@ -61,7 +58,7 @@ This is a $kind scene. $BRIEF"
   set +m; ( cd $CACHE/shots && env -u CLAUDECODE -u CLAUDE_CODE_ENTRYPOINT claude -p "$prompt" --model $MODEL --max-turns 40 \
       --allowedTools "Bash($DIR/tools/cua:*)" "Bash($DIR/tools/say:*)" "Bash($DIR/tools/wait:*)" "Bash($DIR/tools/end:*)" "Read" \
       --disallowedTools "Edit" "Write" "WebFetch" "WebSearch" "Agent" < /dev/null > $RUN/director.out 2>&1 ) & local CL=$!; set -m 2>/dev/null
-  local t0=$(date +%s); while kill -0 $CL 2>/dev/null; do [ -f $RUN/abort ] && { kill $CL 2>/dev/null; break; }; [ $(( $(date +%s) - t0 )) -gt 420 ] && { log "director ran past 7 minutes; stopping it"; pkill -9 -P $CL 2>/dev/null; kill -9 $CL 2>/dev/null; break; }; sleep 2; done; wait $CL 2>/dev/null
+  local t0=$(date +%s); while kill -0 $CL 2>/dev/null; do [ -f $RUN/abort ] && { kill $CL 2>/dev/null; break; }; [ $(( $(date +%s) - t0 )) -gt ${DIR_T:-420} ] && { log "director ran past ${DIR_T:-420}s; stopping it"; pkill -9 -P $CL 2>/dev/null; kill -9 $CL 2>/dev/null; break; }; sleep 2; done; wait $CL 2>/dev/null
   log "director: $(tail -c 400 $RUN/director.out | tr '\n' ' ')"
   local bad=$(screen_check); sleep 1.5
   local id=$(barwin); [ -n "$id" ] && screencapture -l "$id" -o -x "$ST/end-pane.png" 2>/dev/null; screencapture -x -D 1 "$ST/end-screen.png" 2>/dev/null
