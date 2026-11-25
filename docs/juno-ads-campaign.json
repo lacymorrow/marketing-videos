@@ -12,10 +12,12 @@
       "source": "public/takes/graphite/road-trip/juno-voice-road-trip-20261125-1447.mov, 33 s to 102 s, cropped 2560x1440 at (220,72)",
       "spoken": "Hi Juno, look up hotel prices online for a four day drive from Los Angeles to San Francisco, save the plan, and open it in TextEdit.",
       "spokenAt": 0.5,
-      "resultAt": 48,
-      "segments": [[0, 18, 3], [18, 47.5, 10], [47.5, 58.5, 1.6], [58.5, 66, 1]],
+      "resultAt": 48.4,
+      "segments": [[0, 6, 1.5], [6, 22, 8], [48.4, 58.4, 1.2]],
       "poster": "juno-ads/clip-road-trip-f0.png",
-      "camera": [[0, 0.61, 0.73, 1.9], [47.5, 0.33, 0.37, 1.55], [58.5, 0.41, 0.44, 1.15]]
+      "camera": [[0, 0.61, 0.73, 1.9], [48.4, 0.328, 0.292, 1.9, 0]],
+      "portraitHeight": 608,
+      "_cut": "Juno's reply pane is on screen 22.5 s to 48 s and after 58.5 s (it shows its own name as Joono and the rig's scratch folder). Those spans are cut, and the result shot is framed to leave the corner pane out (LAC-9066). Re-check both if the take changes."
     },
     "folder": {
       "file": "juno-ads/clip-folder.mp4",

@@ -54,7 +54,9 @@ while IFS=$'\t' read -r day acct media comm text; do
   [[ "$day" == "$TODAY" && "$HOUR10" -lt "$hh" ]] && continue
   key="$fday|$acct|$media|$comm"
   grep -qF "	$key	" "$DONE" && continue
-  case "$media" in *calc*|*make-juno-do-it*|*juno-ad-*|*juno-ads/clip-*)  # Lacy 2026-10-30 + 2026-11-17: no calculator demos, ever. 2026-11-18: every juno-ad is cut from folder/tidy/receipts clips (two clicks and a drag), held until real-world demos exist
+  case "$media" in
+  out/juno-ads/juno-ad-road-trip-16x9.mp4|out/juno-ads/juno-ad-road-trip-9x16.mp4) ;;  # LAC-9066: real-world take (spoken request, web lookup, saved plan), meets the 11-18 bar. Exact names only
+  *calc*|*make-juno-do-it*|*juno-ad-*|*juno-ads/clip-*)  # Lacy 2026-10-30 + 2026-11-17: no calculator demos, ever. 2026-11-18: every juno-ad is cut from folder/tidy/receipts clips (two clicks and a drag), held until real-world demos exist
     [ -n "$DRY" ] && { echo "dry-run: banned weak juno media, skip [$key]"; continue; }
     printf '%s\t%s\tBANNED weak juno demo\n' "$(date '+%F %T')" "$key" >> "$DONE"
     digest+=$'\n'"Skipped, weak Juno demo is banned: [$key]"; continue;;

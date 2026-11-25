@@ -37,11 +37,12 @@ const easeIn = Easing.bezier(0.6, 0, 0.9, 0.35);
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 
 type Segment = [number, number, number]; // [fromSec, toSec, playbackRate]
-type Camera = [number, number, number, number]; // [clipSec, cx, cy, zoom]
+type Camera = [number, number, number, number, number?]; // [clipSec, cx, cy, zoom, moveSec (0 = hard cut)]
 type Clip = {
 	file: string;
 	poster: string;
 	camera: Camera[];
+	portraitHeight?: number; // footage band height in 9:16; 608 shows the same framing as 16:9
 	spoken: string;
 	spokenAt: number;
 	resultAt: number;
@@ -83,12 +84,13 @@ const easeInOut = Easing.bezier(0.65, 0, 0.35, 1);
 const MOVE_SEC = 0.8;
 /** Camera at an output time (s since footage start): eased moves between keyframes. */
 function cameraAt(clip: Clip, outSec: number) {
-	const keys = clip.camera.map(([t, cx, cy, z]) => ({ at: clipTimeToOut(clip, t), cx, cy, z }));
+	const keys = clip.camera.map(([t, cx, cy, z, move = MOVE_SEC]) => ({ at: clipTimeToOut(clip, t), cx, cy, z, move }));
 	let cur = keys[0];
 	for (let i = 1; i < keys.length; i++) {
 		const k = keys[i];
-		if (outSec < k.at) break;
-		const p = interpolate(outSec, [k.at, k.at + MOVE_SEC], [0, 1], { ...clamp, easing: easeInOut });
+		// Half a frame of slack: a hard cut must land on the same frame as the footage cut.
+		if (outSec < k.at - 0.5 / FPS) break;
+		const p = k.move > 0 ? interpolate(outSec, [k.at, k.at + k.move], [0, 1], { ...clamp, easing: easeInOut }) : 1;
 		cur = { at: k.at, cx: cur.cx + (k.cx - cur.cx) * p, cy: cur.cy + (k.cy - cur.cy) * p, z: cur.z + (k.z - cur.z) * p };
 	}
 	return cur;
@@ -145,7 +147,7 @@ export const JunoAd: React.FC<{ ad: Ad }> = ({ ad }) => {
 	// Footage box: full-bleed in 16:9, letterboxed band in 9:16.
 	// 9:16 shows a taller centre crop (cover) so the pill and the app read on a phone.
 	const vidW = width;
-	const vidH = portrait ? 760 : Math.round((width * 9) / 16);
+	const vidH = portrait ? (clip.portraitHeight ?? 760) : Math.round((width * 9) / 16);
 	const vidY = portrait ? Math.round(height * 0.5 - vidH * 0.5) : 0;
 	// The clip is laid out at cover size inside the box, then the camera pans and zooms it.
 	const inH = vidH;
