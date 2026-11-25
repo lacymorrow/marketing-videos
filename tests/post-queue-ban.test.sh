@@ -41,6 +41,17 @@ setup '2026-11-19@11\tjunebug_ai\t-\t-\tplain post\n'
 printf '#!/bin/bash\necho https://x.com/junebug_ai/status/1\nexit 0\n' > "$H/repo/marketing-videos/tools/x-post.sh"; run
 grep -q 'https://x.com/junebug_ai/status/1' "$DM" 2>/dev/null && ok "posted URL still DMs" || bad "posted URL still DMs"
 
+# LAC-9066: the two road-trip renders are real-world footage and post. Anything else under the juno-ad name stays banned.
+for r in 16x9 9x16; do
+  setup "2026-11-19@11\tjunebug_ai\tout/juno-ads/juno-ad-road-trip-$r.mp4\t-\troad trip\n"
+  printf '#!/bin/bash\necho https://x.com/junebug_ai/status/1\nexit 0\n' > "$H/repo/marketing-videos/tools/x-post.sh"; run
+  grep -q 'https://x.com/junebug_ai/status/1' "$DONE" && ! grep -q BANNED "$DONE" && ok "road-trip $r posts" || bad "road-trip $r posts: $(cat "$DONE")"
+done
+for m in out/juno-ads/juno-ad-road-trip-v2-16x9.mp4 out/juno-ads/juno-ad-receipts-16x9.mp4 public/juno-ads/clip-road-trip.mp4; do
+  setup "2026-11-19@11\tjunebug_ai\t$m\t-\tbanned post\n"; run
+  grep -q BANNED "$DONE" && ok "still banned: $m" || bad "still banned: $m"
+done
+
 # LAC-8641: the thin-queue line must reach the log, not only the DM. Depth stamp removed so the depth check runs.
 setup '2026-11-18@10\tjunebug_ai\t-\t-\told post\n'; rm -f "$H/.paperclip/logs/.post-queue-depth-day"; run
 grep -q 'Queue is thin' "$H/out.log" && ok "thin-queue line is logged" || bad "thin-queue line is logged"
