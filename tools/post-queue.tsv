@@ -52,7 +52,7 @@
 2026-11-24@13	lacybuilds	out/crossover-promo-16x9.mp4	-	CrossOver puts a crosshair on your screen, over any game. I've kept it free for over a decade.
 2026-11-25@13	lacybuilds	public/social/pf-home.jpg	-	Prescription Finder calls the other pharmacies near you, one at a time, and stops at the first one that has your medication. $4.99, refunded if nobody picks up. https://prescriptionfinder.app
 2026-11-26@13	lacybuilds	out/lacy-demo.mp4	-	I type what I want in my terminal, Lacy Shell works out if it's a command or a question. Commands run like normal. Free and open source. lacy.sh
-2026-11-27@13	lacybuilds	public/social/camfetti-store.jpg	-	CamFetti is a free iPhone viewer for Thingino, ONVIF and RTSP cameras, now on the App Store. No account, no subscription, and the video never touches a server. Open source. apps.apple.com/app/id6829295028
+2026-11-27@13	lacybuilds	-	-	CamFetti is a free iPhone viewer for Thingino, ONVIF and RTSP cameras, now on the App Store. No account, no subscription, and the video never touches a server. Open source. apps.apple.com/app/id6829295028
 2026-11-28@13	lacybuilds	public/social/linger-home.jpg	-	Linger starts with a video call with someone nearby, not a profile. Stay as long as you both want. 18 and over. linger.lacy.sh
 2026-11-29@13	lacybuilds	out/crossover-promo-1x1.mp4	-	CrossOver is a crosshair overlay for any game, and it has been free for over a decade.
 2026-11-30@13	lacybuilds	public/social/pf-vyvanse.jpg	-	Pharmacy out of your Vyvanse? Prescription Finder calls the others near you and stops at the first one that has it. https://prescriptionfinder.app/vyvanse
@@ -73,3 +73,18 @@
 2026-11-25@17	junebug_ai	out/juno-ads/juno-ad-road-trip-16x9.mp4	-	one spoken request for hotel prices on a four day drive from la to san francisco. juno looked them up online, saved the plan and opened it on the mac. they're listed prices from other dates, so check yours. free, junebug.ai
 2026-11-28@17	lacybuilds	out/juno-ads/juno-ad-road-trip-16x9.mp4	-	I asked @junebug_ai out loud for hotel prices on a four day drive from LA to San Francisco, and it saved the plan and opened it on screen. It came up empty on San Francisco and the file says so. junebug.ai
 2026-11-30@10	postiz-linkedin	out/juno-ads/juno-ad-road-trip-16x9.mp4	-	I built Juno so I could ask for something out loud and get the file on my own computer. In this one I ask for hotel prices on a four day drive from LA to San Francisco. What comes back is a snapshot of listed prices (nothing quoted for your dates), and San Francisco has none, which the plan admits. It's free at junebug.ai
+2026-11-27@17	junebug_ai	-	-	hit escape and juno stops, even halfway through a click. there's no dialog to go looking for. free, junebug.ai
+2026-11-27@10	postiz-linkedin	public/social/pf-desktop.jpg	-	When your pharmacy is out of a prescription, someone has to call around. I built Prescription Finder to do that part. It calls pharmacies near you one at a time and stops at the first one that has your medication. It's $4.99, and you get it back if nobody picks up. prescriptionfinder.app
+2026-11-28@10	junebug_ai	-	-	by default juno works through your computer's accessibility controls, so your mouse stays yours while it's busy. it only takes the real cursor if you give it that permission. junebug.ai
+2026-11-29@10	junebug_ai	-	-	what you say to juno gets turned into text on your own computer. the audio never goes to us or to the model provider. junebug.ai
+2026-11-30@17	junebug_ai	-	-	if you aren't ready to hand over the clicking, use companion mode. juno looks at your screen and talks you through it, with no way to click anything. junebug.ai
+2026-12-01@10	junebug_ai	-	-	there's nothing to plug in. if an app shows up on your screen juno can work in it, even that old internal tool nobody has updated in years. junebug.ai
+2026-12-02@10	junebug_ai	-	-	if you already use claude code, cursor, codex or gemini cli, run npx juno-cua and your agent can see the screen and use the mouse and keyboard.
+2026-12-02@10	postiz-linkedin	-	-	My first iPhone app is on the App Store. CamFetti shows your Thingino, ONVIF and RTSP cameras on one screen, it's free, and the camera passwords stay on your phone. apps.apple.com/app/id6829295028
+2026-12-03@10	junebug_ai	-	-	the api keys you give juno go into your computer's own credential store, so they aren't sitting in a settings file. junebug.ai
+2026-12-04@10	junebug_ai	-	-	got an api key buried in a long message? paste the whole thing. juno picks out the key and tests it for you. junebug.ai
+2026-12-04@10	postiz-linkedin	-	-	I got tired of deciding whether I was about to run a command or ask a question, so I built Lacy Shell. You type into your terminal and it works out which one you meant. Real commands run like they always did. lacy.sh
+2026-12-05@10	junebug_ai	-	-	something to try this weekend: ask juno to rename your screenshots by date and file them, then go do anything else. free, junebug.ai
+2026-12-06@10	junebug_ai	-	-	here's one to say out loud on a sunday night. "find the unpaid invoices in my mail and add a reminder for each one." junebug.ai
+2026-12-07@10	junebug_ai	-	-	juno's source is public, so you can read the code that's going to use your keyboard before you install it. github.com/lacymorrow/juno
+2026-12-07@10	postiz-linkedin	portfolio/buildandserve/buildandserve-home-1x1.png	-	I run Build And Serve for small businesses that need an app or a website built and then kept running. If you've got a project that stalled halfway, I'd like to hear about it. buildandserve.com
